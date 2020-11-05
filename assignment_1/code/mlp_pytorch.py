@@ -8,6 +8,8 @@ from __future__ import print_function
 
 import torch.nn as nn
 
+# TODO CHANGE BACK UTILS FILES WITH PATHS
+
 
 class MLP(nn.Module):
     """
@@ -37,7 +39,18 @@ class MLP(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+      
+        super().__init__()
+                           
+        layers = []
+        layer_sizes = [n_inputs] + n_hidden
+        for idx in range(1, len(layer_sizes)):
+            layers += [nn.Linear(layer_sizes[idx-1], layer_sizes[idx]),
+                       nn.ELU()]
+        layers += [nn.Linear(layer_sizes[-1], n_classes)]
+        self.linearLayers = nn.Sequential(*layers)
+
+        # raise NotImplementedError
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -59,7 +72,9 @@ class MLP(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        out = self.linearLayers(x)
+  
+        # raise NotImplementedError
         ########################
         # END OF YOUR CODE    #
         #######################

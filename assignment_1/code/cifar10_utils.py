@@ -23,13 +23,15 @@ def load_cifar10_batch(batch_filename):
       X: CIFAR10 batch data in numpy array with shape (10000, 32, 32, 3).
       Y: CIFAR10 batch labels in numpy array with shape (10000, ).
     """
+    print(batch_filename)
     with open(batch_filename, 'rb') as f:
-        batch = pickle.load(f, encoding='latin1')
-        X = batch['data']
-        Y = batch['labels']
-        X = X.reshape(10000, 3, 32, 32).transpose(0, 2, 3, 1).astype(np.float32)
-        Y = np.array(Y)
-        return X, Y
+      
+      batch = pickle.load(f, encoding='latin1')
+      X = batch['data']
+      Y = batch['labels']
+      X = X.reshape(10000, 3, 32, 32).transpose(0, 2, 3, 1).astype(np.float32)
+      Y = np.array(Y)
+      return X, Y
 
 
 def load_cifar10(cifar10_folder):
@@ -47,13 +49,20 @@ def load_cifar10(cifar10_folder):
     Xs = []
     Ys = []
     for b in range(1, 6):
-        batch_filename = os.path.join(cifar10_folder, 'data_batch_' + str(b))
+        # batch_filename = os.path.join(cifar10_folder, 'data_batch_' + str(b))
+        ### changed
+        directory = os.path.join(os.getcwd(), 'cifar10\\cifar-10-batches-py')
+        batch_filename = os.path.join(directory, 'data_batch_' + str(b))
+        # changed
         X, Y = load_cifar10_batch(batch_filename)
         Xs.append(X)
         Ys.append(Y)
     X_train = np.concatenate(Xs)
     Y_train = np.concatenate(Ys)
-    X_test, Y_test = load_cifar10_batch(os.path.join(cifar10_folder, 'test_batch'))
+
+    ### changed
+    X_test, Y_test = load_cifar10_batch(os.path.join(directory, 'test_batch'))
+    ### changed
     return X_train, Y_train, X_test, Y_test
 
 

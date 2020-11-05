@@ -16,10 +16,9 @@ class MLP(object):
     Once initialized an MLP object can perform forward and backward.
     """
     
-    def __init__(self, n_inputs, n_hidden, n_classes, neg_slope):
+    def __init__(self, n_inputs, n_hidden, n_classes):
         """
         Initializes MLP object.
-        
         Args:
           n_inputs: number of inputs.
           n_hidden: list of ints, specifies the number of units
@@ -29,16 +28,22 @@ class MLP(object):
           n_classes: number of classes of the classification problem.
                      This number is required in order to specify the
                      output dimensions of the MLP
-          neg_slope: negative slope parameter for LeakyReLU
-        
         TODO:
         Implement initialization of the network.
         """
-        
+
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        self.layers = []
+        layer_sizes = [n_inputs] + n_hidden
+        for idx in range(1, len(layer_sizes)):
+          
+          self.layers += [LinearModule(layer_sizes[idx-1], layer_sizes[idx]),
+           ELUModule()]
+        self.layers += [LinearModule(layer_sizes[-1], n_classes), SoftMaxModule()]
+
+        print(self.layers)
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -60,7 +65,10 @@ class MLP(object):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        for layer in self.layers:
+          x = layer.forward(x)
+        
+        out = x.copy()
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -81,7 +89,10 @@ class MLP(object):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        # raise NotImplementedError
+        for layer in reversed(self.layers):
+          dout = layer.backward(dout)
+
         ########################
         # END OF YOUR CODE    #
         #######################
