@@ -10,6 +10,7 @@ import argparse
 import numpy as np
 import os
 from mlp_pytorch import MLP
+# import cifar10_utilsLisa
 import cifar10_utils
 
 import torch
@@ -52,15 +53,13 @@ def accuracy(predictions, labels):
     # PUT YOUR CODE HERE  #
     #######################
     # find argmax of prediction
-    batch_size, n_classes = predictions.shape
+    batch_size, _ = predictions.shape
 
     predictions_argmax = predictions.argmax(dim=1)
 
-    prediction_matrix = F.one_hot(predictions_argmax, num_classes=n_classes)
-
-    result = prediction_matrix * labels
-
-    correct = torch.sum(torch.sum(result, dim=1))
+    labels_argmax = labels.argmax(dim=1)
+    
+    correct = torch.sum(predictions_argmax == labels_argmax)
 
     accuracy = correct.item() / float(batch_size)
     # raise NotImplementedError
@@ -103,36 +102,43 @@ def train():
 
     # get the data
     # TODO get_cifar10 takes parameter that specifies size of validation set
+    # data_dict = cifar10_utilsLisa.get_cifar10(
+    #     data_dir=FLAGS.data_dir, validation_size=0)
     data_dict = cifar10_utils.get_cifar10(
         data_dir=FLAGS.data_dir, validation_size=0)
     trainset = data_dict["train"]
     validationset = data_dict["validation"]
     testset = data_dict["test"]
 
-    n_input = 3 * 32 * 32
-    n_hidden = [100]
-    n_classes = 10
+    # get correct dimensions
+    n_channels, height, width = trainset.images[0].shape
+
+    n_input = n_channels * height * width
+    n_hidden = dnn_hidden_units
+    n_classes = trainset.labels[0].shape[0]
+    eta = FLAGS.learning_rate
+
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(42)
+        torch.cuda.manual_seed_all(42)
 
     # create MLP model
     model = MLP(n_input, n_hidden, n_classes)
+
+    print(model)
+
+    # push model to device
+    model.to(device)
 
     # define loss function
     loss_module = nn.CrossEntropyLoss()
 
     # define optimizer
-    optimizer = torch.optim.SGD(model.parameters(), FLAGS.learning_rate)
+    optimizer = torch.optim.SGD(model.parameters(), eta)
 
-    # num examples train
-    num_examples_train = trainset.num_examples
-    print(num_examples_train)
-
-    # num examples validation
-    num_examples_valid = validationset.num_examples
-    print(num_examples_valid)
-
-    # num examples test
-    num_examples_test = testset.num_examples
-    print(num_examples_test)
+    # lr scheduler
+    # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, FLAGS.max_steps)
 
     #######################
     ###### training #######
@@ -141,168 +147,152 @@ def train():
     # set model to train mode
     model.train()
 
-    eval_freq_counter = 0
-
     training_loss = []
     testset_loss = []
 
     training_accuracy = []
     testset_accuracy = []
 
-    for iter_step in range(FLAGS.max_steps):
+    running_loss = 0.0
+    running_acc = 0.0
 
+    train_batch_size = FLAGS.batch_size
+    eval_frequency = FLAGS.eval_freq
+
+
+    for iter_step in range(FLAGS.max_steps):
         # get next batch
-        images, labels = trainset.next_batch(FLAGS.batch_size)
+        train_images, train_labels = trainset.next_batch(train_batch_size)
 
         # convert numpy array to torch tensor
-        images = torch.from_numpy(images)
-        labels = torch.from_numpy(labels)
+        train_images = torch.from_numpy(train_images)
+        train_labels = torch.from_numpy(train_labels)
 
         # need to reshape it into vector so batchsize x (3x32x32)
-        image_batch_vector = torch.reshape(
-            images, (BATCH_SIZE_DEFAULT, -1))
+        train_image_batch_vector = torch.reshape(train_images, (train_batch_size, -1))
 
-        # move input data to device if using cluster
-        # image_batch_vector, labels = image_batch_vector.to(device), labels.to(device)
+        # move input data to device if available
+        train_image_batch_vector, train_labels = train_image_batch_vector.to(device), train_labels.to(device)
 
         # run model on input data
-        outputs = model(image_batch_vector)
-
-        # TODO should have a look because probably doesnt make sense
-        # preds = preds.squeeze(dim=1)
+        train_output = model(train_image_batch_vector)
 
         # calculate loss
         # argmax so that loss_module can evaluate output
-        labels_argmax = torch.argmax(labels, dim=1)
-        # output_argmax = torch.argmax(outputs, dim=1)
+        train_labels_argmax = torch.argmax(train_labels, dim=1)
 
-        loss = loss_module(outputs, labels_argmax)
-
+        loss = loss_module(train_output, train_labels_argmax)
+        
         # perform backpropagation
         optimizer.zero_grad()
 
-        # TODO check where to implement loss module in the architecture
         loss.backward()
 
         # update parameters
         optimizer.step()
 
-        # update eval freq counter
-        eval_freq_counter += 1
+        # scheduler.step()
 
-        # eval frequency check
-        if eval_freq_counter == FLAGS.eval_freq or iter_step == FLAGS.max_steps - 1:
-            model.eval()
+        # update running loss
+        running_loss += loss.item() 
+
+        # running accuracy
+        running_acc += accuracy(train_output, train_labels)
+
+        # if iter_step == eval_frequency:
+        if iter_step % eval_frequency == eval_frequency - 1:
             print(iter_step)
+            # training loss
+            current_loss = running_loss / (eval_frequency)
+            print('[%d] loss: %.3f' %
+                  (iter_step + 1, current_loss))
+            training_loss.append(current_loss)
+            running_loss = 0.0
+
+            # training acc
+            current_acc = running_acc / (eval_frequency)
+            print('[%d] accuracy: %.3f' %
+                  (iter_step + 1, current_acc))
+            training_accuracy.append(current_acc)
+            running_acc = 0.0
+
+            # get testset loss and accuracy
+            model.eval()
+
             with torch.no_grad():
-                ####### validation #########
-                # append training loss
-                training_loss.append(loss.item())
-            
-                # get validation set loss
-                # get validation images, labels
-                test_images, test_labels = testset.images, testset.labels
 
-                # convert numpy array to torch tensor
-                test_images = torch.from_numpy(test_images)
-                test_labels = torch.from_numpy(test_labels)
+                test_epochs_completed = 0.0
 
-                # need to reshape it into vector so batchsize x (3x32x32)
-                test_images_vector = torch.reshape(test_images, (num_examples_test, -1))
+                running_test_loss = 0.0
+                running_test_acc = 0.0
 
-                # move input data to device if using cluster
-                # val_images_vector, val_labels = val_images_vector.to(device), val_labels.to(device)
+                test_step_iter = 0.0
+                test_batch_size = FLAGS.batch_size
 
-                # predictions for validation set
-                test_output = model(test_images_vector)
+                test_set_img_counter = 0.0
+                num_examples_test = testset.num_examples
 
-                test_labels_argmax = torch.argmax(test_labels, dim=1)
-                # output_argmax = torch.argmax(outputs, dim=1)
+                while test_set_img_counter < num_examples_test:
+                    # get next test batch
+                    test_images, test_labels = testset.next_batch(test_batch_size)
 
-                test_loss = loss_module(test_output, test_labels_argmax)
+                    # convert numpy array to torch tensor
+                    test_images = torch.from_numpy(test_images)
+                    test_labels = torch.from_numpy(test_labels)
 
-                # append validation loss
-                testset_loss.append(test_loss.item())
+                    # reshape into vector
+                    test_images_vector = torch.reshape(test_images, (test_batch_size, -1))
 
-                ####### accuracy #########
-                train_images, train_labels = trainset.images, trainset.labels
+                    # move input data to device if available
+                    test_images_vector, test_labels = test_images_vector.to(device), test_labels.to(device)
 
-                train_images = torch.from_numpy(train_images)
-                train_labels = torch.from_numpy(train_labels)
+                    # predictions for test set
+                    test_output = model(test_images_vector)
 
-                train_images_vector = torch.reshape(train_images, (num_examples_train, -1))
+                    test_labels_argmax = torch.argmax(test_labels, dim=1)
 
-                train_output = model(train_images_vector)
+                    test_loss = loss_module(test_output, test_labels_argmax)
 
-                train_acc = accuracy(train_output, train_labels)
+                    # update running loss
+                    running_test_loss += test_loss.item() 
 
-                training_accuracy.append(train_acc)
+                    # running accuracy
+                    running_test_acc += accuracy(test_output, test_labels)
 
-                test_acc = accuracy(test_output, test_labels)
+                    test_step_iter += 1
 
-                testset_accuracy.append(test_acc)
+                    test_set_img_counter += test_batch_size
 
-            # reset counter for next eval frequency
-            eval_freq_counter = 0
-            
-            # put model in training mode again
-            model.train()
+                    
+                testset_loss.append(running_test_loss / test_step_iter)
+                testset_accuracy.append(running_test_acc / test_step_iter)
 
+                # set model to training mode again
+                model.train()
 
-    # plot the train and validation loss
-    fig = plt.figure()
-    plt.plot(np.arange(len(training_loss)) * 100, training_loss, label="Training")
-    plt.plot(np.arange(len(testset_loss)) * 100, testset_loss, label="Test")
-    plt.xlabel("Step Number")
-    plt.ylabel("Cross Entropy Loss")
-    plt.title("Training and Test Loss")
-    plt.legend()
-    plt.show()
-
-    # plot accuracy
-    fig = plt.figure()
-    plt.plot(np.arange(len(training_accuracy)) * 100, training_accuracy, label="Training")
-    plt.plot(np.arange(len(testset_accuracy)) * 100, testset_accuracy, label="Test")
-    plt.xlabel("Step Number")
-    plt.ylabel("Accuracy")
-    plt.title("Training and Test Loss")
-    plt.legend()
-    plt.show()
-
-    # print final test acc
+    print("Final Test Loss")
     print(testset_accuracy[-1])
+    # # plot the train and validation loss
+    fig = plt.figure(figsize=(12, 4))
+    ax1 = fig.add_subplot(121)
+    ax1.plot(np.arange(len(training_loss)) * eval_frequency + eval_frequency, training_loss, label="Training")
+    ax1.plot(np.arange(len(testset_loss)) * eval_frequency + eval_frequency, testset_loss, label="Test")
+    ax1.set_xlabel("Step Number")
+    ax1.set_ylabel("Cross Entropy Loss")
+    ax1.set_title("Training and Test Loss")
+    ax1.legend()
+    
+    ax2 = fig.add_subplot(122)
+    ax2.plot(np.arange(len(training_accuracy)) * eval_frequency + eval_frequency, training_accuracy, label="Training")
+    ax2.plot(np.arange(len(testset_accuracy)) * eval_frequency + eval_frequency, testset_accuracy, label="Test")
+    ax2.set_xlabel("Step Number")
+    ax2.set_ylabel("Accuracy")
+    ax2.set_title("Training and Test Accuracy")
+    ax2.legend()
+    plt.show()
+    fig.savefig("./results/pytorchMLP.png")
 
-    #######################
-    ###### evaluation #####
-    #######################
-
-    # # set to eval mode
-    # model.eval()
-    # true_preds, num_preds = 0., 0.
-
-    # # TODO probably do not need this part
-    # with torch.no_grad():
-    #     # get validation images, labels
-    #     val_images, val_labels = validationset.images, validationset.labels
-
-    #     # convert numpy array to torch tensor
-    #     val_images = torch.from_numpy(val_images)
-    #     val_labels = torch.from_numpy(val_labels)
-
-    #     # need to reshape it into vector so batchsize x (3x32x32)
-    #     val_images_vector = torch.reshape(val_images, (num_examples_valid, -1))
-
-    #     # move input data to device if using cluster
-    #     # val_images_vector, val_labels = val_images_vector.to(device), val_labels.to(device)
-
-    #     # predictions for validation set
-    #     val_preds = model(val_images_vector)
-
-    #     # get accuracy
-    #     # TODO check what the shape of val_labels is: already matrix, or need to make it matrix
-    #     acc = accuracy(val_preds, val_labels)
-
-    # print(acc)
+   
 
     # raise NotImplementedError
     ########################

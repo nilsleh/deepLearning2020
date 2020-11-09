@@ -2,3 +2,6 @@
 __pycache__/
 .vscode/
 cifar10/
+lisaOutput/
+numpy_comparison.txt
+pytorch_comparison.txt

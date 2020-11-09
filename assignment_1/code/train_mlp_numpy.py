@@ -46,15 +46,12 @@ def accuracy(predictions, targets):
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    batch_size, n_classes = predictions.shape
+    batch_size, _ = predictions.shape
 
     prediction_argmax = np.argmax(predictions, axis=1)
+    targets_argmax = np.argmax(targets, axis=1)
 
-    prediction_matrix = np.eye(np.max(prediction_argmax)+1)[prediction_argmax]
-
-    result = prediction_matrix * targets
-
-    correct = np.sum(np.sum(result, axis=1))
+    correct = np.sum(prediction_argmax == targets_argmax)
 
     accuracy = correct / float(batch_size)
 
@@ -89,17 +86,6 @@ def train():
     #######################
     np.random.seed(0)
 
-    # num_inputs = 10
-    # batch_size = 5
-    # num_classes = 3
-
-    # model = MLP(num_inputs, [15, 20], num_classes)
-
-    # loss_module = CrossEntropyModule()    
-    # train_x = np.random.randint(5,10, (batch_size,num_inputs))
-    # train_labels = np.random.randint(num_classes, size=batch_size).reshape(-1)
-    # one_hot_label = np.eye(num_classes)[train_labels]
-
 
     data_dict = cifar10_utils.get_cifar10(
         data_dir=FLAGS.data_dir, validation_size=0)
@@ -107,51 +93,45 @@ def train():
     validationset = data_dict["validation"]
     testset = data_dict["test"]
 
-    # num examples train
-    num_examples_train = trainset.num_examples
-    print(num_examples_train)
+    # get correct dimensions
+    n_channels, height, width = trainset.images[0].shape
 
-    # num examples validation
-    num_examples_valid = validationset.num_examples
-
-    # num examples test
-    num_examples_test = testset.num_examples
-    print(num_examples_test)
-
-    n_input = 3 * 32 * 32
-    n_hidden = [100]
-    n_classes = 10
+    n_input = n_channels * height * width
+    n_hidden = dnn_hidden_units
+    n_classes = trainset.labels[0].shape[0]
 
     eta = FLAGS.learning_rate
-    # eta = 1e-1
 
     model = MLP(n_input, dnn_hidden_units, n_classes)
+
     loss_module = CrossEntropyModule() 
 
-    batch_size = FLAGS.batch_size
+    train_batch_size = FLAGS.batch_size
     
-    trainset_loss = []
+    training_loss = []
     testset_loss = []
 
     training_accuracy = []
     testset_accuracy = []
-    
-    iter_num = 5
-    eval_freq_counter = 0
 
-    for i in range(FLAGS.max_steps):
-        train_images, train_labels = trainset.next_batch(batch_size)
-        train_vector = np.reshape(train_images, (batch_size, -1))
-        output = model.forward(train_vector)
+    running_loss = 0.0
+    running_acc = 0.0
+
+    eval_frequency = FLAGS.eval_freq
+
+    for iter_step in range(FLAGS.max_steps):
+        train_images, train_labels = trainset.next_batch(train_batch_size)
+        train_vector = np.reshape(train_images, (train_batch_size, -1))
+
+        train_output = model.forward(train_vector)
 
         # compute loss
-        train_loss = loss_module.forward(output, train_labels)
+        train_loss = loss_module.forward(train_output, train_labels)
         
         # start backpropagation
+        backprop_loss_module = loss_module.backward(train_output, train_labels)
 
-        backprop_loss = loss_module.backward(output, train_labels)
-
-        model.backward(backprop_loss)
+        model.backward(backprop_loss_module)
 
         # update parameters
         for idx in range(0, len(model.layers), 2):
@@ -159,55 +139,59 @@ def train():
             linear_layer.params["weight"] -= eta * linear_layer.grads["weight"]
             linear_layer.params["bias"] -= eta * linear_layer.grads["bias"]
 
-        # update eval freq counter
-        eval_freq_counter += 1
+        # update running loss
+        running_loss += train_loss
 
-        if eval_freq_counter == FLAGS.eval_freq:
-            # keep track loss
+        # running accuracy
+        running_acc += accuracy(train_output, train_labels)
+
+        if iter_step % eval_frequency == eval_frequency - 1:
+            current_loss = running_loss / (eval_frequency)
+            print('[%d] loss: %.3f' %
+                  (iter_step + 1, current_loss))
+            training_loss.append(current_loss)
+            running_loss = 0.0
+
+            # training acc
+            current_acc = running_acc / (eval_frequency)
+            print('[%d] accuracy: %.3f' %
+                  (iter_step + 1, current_acc))
+            training_accuracy.append(current_acc)
+            running_acc = 0.0
+
+            # keep track testset loss and accuracy
+            num_examples_test = testset.num_examples
             test_images, test_labels = testset.images, testset.labels
             test_vector = np.reshape(test_images, (num_examples_test, -1))
             test_output = model.forward(test_vector) 
-
-            output_loss = loss_module.forward(test_output, test_labels)
-            testset_loss.append(output_loss)
-            trainset_loss.append(train_loss)
-
-            # keep track accuracy
-            train_images, train_labels = trainset.images, trainset.labels
-            train_vector = np.reshape(train_images, (num_examples_train, -1))
-
-            train_output = model.forward(train_vector)
-
-            train_acc = accuracy(train_output, train_labels)
-
+            test_loss = loss_module.forward(test_output, test_labels)
             test_acc = accuracy(test_output, test_labels)
 
-            training_accuracy.append(train_acc)
-
+            testset_loss.append(test_loss)
             testset_accuracy.append(test_acc)
 
-            # reset counter for next eval frequency
-            eval_freq_counter = 0
 
     # plot the train and validation loss
     fig = plt.figure()
-    plt.plot(np.arange(len(trainset_loss)) * 100, trainset_loss, label="Training")
-    plt.plot(np.arange(len(testset_loss)) * 100, testset_loss, label="Test")
+    plt.plot(np.arange(len(training_loss)) * eval_frequency + eval_frequency, training_loss, label="Training")
+    plt.plot(np.arange(len(testset_loss)) * eval_frequency + eval_frequency, testset_loss, label="Test")
     plt.xlabel("Step Number")
     plt.ylabel("Cross Entropy Loss")
     plt.title("Training and Test Loss")
     plt.legend()
     plt.show()
+    fig.savefig("./results/numpyMLP_loss.png")
 
     # plot accuracy
     fig = plt.figure()
-    plt.plot(np.arange(len(training_accuracy)) * 100, training_accuracy, label="Training")
-    plt.plot(np.arange(len(testset_accuracy)) * 100, testset_accuracy, label="Test")
+    plt.plot(np.arange(len(training_accuracy)) * eval_frequency + eval_frequency, training_accuracy, label="Training")
+    plt.plot(np.arange(len(testset_accuracy)) * eval_frequency + eval_frequency, testset_accuracy, label="Test")
     plt.xlabel("Step Number")
     plt.ylabel("Accuracy")
-    plt.title("Training and Test Loss")
+    plt.title("Training and Test Accuracy")
     plt.legend()
     plt.show()
+    fig.savefig("./results/numpyMLP_accuracy.png")
 
     # raise NotImplementedError
     ########################

@@ -39,8 +39,12 @@ class CustomLayerNormAutograd(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
         
-        raise NotImplementedError
-        
+        self.n_neurons = n_neurons
+        self.eps = eps
+
+        self.gamma = nn.Parameter(torch.ones(n_neurons))# , requires_grad=True)
+        self.beta = nn.Parameter(torch.zeros(n_neurons))# , requires_grad=True)
+
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -63,8 +67,26 @@ class CustomLayerNormAutograd(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        batch_size, num_neurons = input.shape
 
-        raise NotImplementedError
+        assert self.n_neurons == num_neurons, "{} channels are needed but there are only {}".format(self.n_neurons, num_neurons)
+        # compute mean
+        mu = torch.mean(input, dim=1, keepdim=True).expand(-1, self.n_neurons)
+
+        # compute var
+        var = torch.var(input, dim=1, unbiased=False, keepdim=True).expand(-1, self.n_neurons)
+        var = torch.sqrt(torch.add(var, self.eps))
+
+        # normalize
+        X_norm = input - mu
+        X_norm = torch.div(X_norm, var)
+
+        # scale and shift
+        gamma_matrix = self.gamma.expand(batch_size, -1)
+        beta_matrix = self.beta.expand(batch_size, -1)
+
+        out = gamma_matrix * X_norm + beta_matrix
+        
 
         ########################
         # END OF YOUR CODE    #
@@ -118,8 +140,30 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        batch_size, num_neurons = input.shape
+        # compute mean
+        mu = torch.mean(input, dim=1, keepdim=True).expand(-1, num_neurons)
+
+        # compute var
+        var = torch.var(input, dim=1, unbiased=False, keepdim=True).expand(-1, num_neurons)
+        var = torch.sqrt(torch.add(var, eps))
+
+        # normalize
+        X_norm = input - mu
+        X_norm = torch.div(X_norm, var)
+
+        # scale and shift
+        gamma_matrix = gamma.expand(batch_size, -1)
+        beta_matrix = beta.expand(batch_size, -1)
+
+        out = gamma_matrix * X_norm + beta_matrix
         
-        raise NotImplementedError
+        # save vectors for backward
+        ctx.save_for_backward(input, gamma, beta)
+
+        ctx.variance = var
+        ctx.mu = mu
+        ctx.X_norm = X_norm
 
         ########################
         # END OF YOUR CODE    #
@@ -147,9 +191,34 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        X, gamma, beta = ctx.saved_tensors
+        grad_input = grad_gamma = grad_beta = None
 
-        raise NotImplementedError
+        batch_size, num_neurons = grad_output.shape
         
+        if ctx.needs_input_grad[0]:
+          
+          gamma_expand = gamma.expand(batch_size, -1)
+          var_expand = ctx.variance.expand(-1, num_neurons)
+          first = grad_output * gamma_expand * var_expand
+
+          second_sum = torch.sum(grad_output * gamma_expand, dim=1, keepdim=True).expand(-1, num_neurons)
+          
+          second =  (var_expand * second_sum)/ num_neurons
+
+          x_minus_mu = X - ctx.mu.expand(-1, num_neurons)
+          var_cubed = var_expand**3.0
+
+          third = ((var_cubed * x_minus_mu) * (second_sum * x_minus_mu)) / num_neurons
+
+          grad_input = first - second - third
+
+        if ctx.needs_input_grad[1]:
+          grad_gamma = torch.sum(grad_output * ctx.X_norm, dim=0)
+  
+        if ctx.needs_input_grad[2]:
+          grad_beta = torch.sum(grad_output, dim=0)
+
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -187,8 +256,11 @@ class CustomLayerNormManualModule(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
 
-        raise NotImplementedError
-        
+        self.n_neurons = n_neurons
+        self.eps = eps
+
+        self.gamma = nn.Parameter(torch.ones(n_neurons))
+        self.beta = nn.Parameter(torch.zeros(n_neurons))
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -211,8 +283,13 @@ class CustomLayerNormManualModule(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        batch_size, num_neurons = input.shape
 
-        raise NotImplementedError
+        assert self.n_neurons == num_neurons, "{} channels are needed but there are only {}".format(self.n_neurons, num_neurons)
+        
+        custom_layer_norm = CustomLayerNormManualFunction()
+        out = custom_layer_norm.apply(input, self.gamma, self.beta, self.eps)
+        
         
         ########################
         # END OF YOUR CODE    #

@@ -10,7 +10,10 @@ import argparse
 import numpy as np
 import os
 from convnet_pytorch import ConvNet
-import cifar10_utils
+import cifar10_utilsLisa
+#import cifar10_utils
+import matplotlib.pyplot as plt
+import time
 
 import torch
 import torch.nn as nn
@@ -49,7 +52,18 @@ def accuracy(predictions, targets):
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    # find argmax of prediction
+
+    batch_size, _ = predictions.shape
+
+    predictions_argmax = predictions.argmax(dim=1)
+
+    targets_argmax = targets.argmax(dim=1)
+    
+    correct = torch.sum(predictions_argmax == targets_argmax)
+
+    accuracy = correct.item() / float(batch_size)
+
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -73,7 +87,176 @@ def train():
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    start_time = time.time()
+
+
+    data_dict = cifar10_utilsLisa.get_cifar10(
+        data_dir=FLAGS.data_dir, validation_size=0)
+    # data_dict = cifar10_utils.get_cifar10(
+    #     data_dir=FLAGS.data_dir, validation_size=0)
+    trainset = data_dict["train"]
+    validationset = data_dict["validation"]
+    testset = data_dict["test"]
+
+    
+    n_channels = trainset.images[0].shape[0]
+    n_classes = trainset.labels[0].shape[0]
+
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(42)
+        torch.cuda.manual_seed_all(42)
+
+    # create Conv Net
+    model = ConvNet(n_channels, n_classes)
+
+    model.to(device)
+
+    # define loss function
+    loss_module = nn.CrossEntropyLoss()
+
+    # define opotimizer
+    optimizer = torch.optim.Adam(model.parameters(), FLAGS.learning_rate)
+
+    #######################
+    ###### training #######
+    #######################
+
+    # set model to train mode
+
+    model.train()
+
+    training_loss = []
+    testset_loss = []
+
+    training_accuracy = []
+    testset_accuracy = []
+
+    running_loss = 0.0
+    running_acc = 0.0
+
+    train_batch_size = FLAGS.batch_size
+    eval_frequency = FLAGS.eval_freq
+
+    for iter_step in range(FLAGS.max_steps):
+        
+        # get next batch
+        train_images, train_labels = trainset.next_batch(train_batch_size)
+
+        # convert numpy array to torch tensor
+        train_images = torch.from_numpy(train_images)
+        train_labels = torch.from_numpy(train_labels)
+
+        # move input data to device if available
+        train_images, train_labels = train_images.to(device), train_labels.to(device)
+
+        # run model on input data
+        train_output = model(train_images)
+
+        # argmax so that loss_module can evaluate output
+        train_labels_argmax = torch.argmax(train_labels, dim=1)
+
+        # calculate loss
+        loss = loss_module(train_output, train_labels_argmax)
+
+        # perform backpropagation
+        optimizer.zero_grad()
+        loss.backward()
+
+        # update parameters
+        optimizer.step()
+
+        # update running loss
+        running_loss += loss.item() 
+
+        # running accuracy
+        running_acc += accuracy(train_output, train_labels)
+
+        if iter_step % eval_frequency == eval_frequency - 1:
+            # training loss
+            current_loss = running_loss / (eval_frequency)
+            training_loss.append(current_loss)
+            running_loss = 0.0
+
+            # training acc
+            current_acc = running_acc / (eval_frequency)
+            training_accuracy.append(current_acc)
+            running_acc = 0.0
+
+            # get testset loss and accuracy
+            model.eval()
+
+            with torch.no_grad():
+
+                test_epochs_completed = 0.0
+
+                running_test_loss = 0.0
+                running_test_acc = 0.0
+
+                test_step_iter = 0.0
+                test_batch_size = FLAGS.batch_size
+
+                test_set_img_counter = 0.0
+                num_examples_test = testset.num_examples
+
+                while test_set_img_counter < num_examples_test:
+                    # get next test batch
+                    test_images, test_labels = testset.next_batch(test_batch_size)
+
+                    # convert numpy array to torch tensor
+                    test_images = torch.from_numpy(test_images)
+                    test_labels = torch.from_numpy(test_labels)
+
+                    # move input data to device if available
+                    test_images, test_labels = test_images.to(device), test_labels.to(device)
+
+                    # predictions for test set
+                    test_output = model(test_images)
+
+                    test_labels_argmax = torch.argmax(test_labels, dim=1)
+
+                    test_loss = loss_module(test_output, test_labels_argmax)
+
+                    # update running loss
+                    running_test_loss += test_loss.item() 
+
+                    # running accuracy
+                    running_test_acc += accuracy(test_output, test_labels)
+
+                    test_step_iter += 1
+
+                    test_set_img_counter += test_batch_size
+
+                    
+                testset_loss.append(running_test_loss / test_step_iter)
+                testset_accuracy.append(running_test_acc / test_step_iter)
+
+        # set model to training mode again
+        model.train()
+
+    # plot the train and validation loss
+    fig = plt.figure(figsize=(12, 4))
+    ax1 = fig.add_subplot(121)
+    ax1.plot(np.arange(len(training_loss)) * eval_frequency + eval_frequency, training_loss, label="Training")
+    ax1.plot(np.arange(len(testset_loss)) * eval_frequency + eval_frequency, testset_loss, label="Test")
+    ax1.set_xlabel("Step Number")
+    ax1.set_ylabel("Cross Entropy Loss")
+    ax1.set_title("Training and Test Loss")
+    ax1.legend()
+    
+    ax2 = fig.add_subplot(122)
+    ax2.plot(np.arange(len(training_accuracy)) * eval_frequency + eval_frequency, training_accuracy, label="Training")
+    ax2.plot(np.arange(len(testset_accuracy)) * eval_frequency + eval_frequency, testset_accuracy, label="Test")
+    ax2.set_xlabel("Step Number")
+    ax2.set_ylabel("Accuracy")
+    ax2.set_title("Training and Test Accuracy")
+    ax2.legend()
+    plt.show()
+    fig.savefig("./results/pytorchCNN.png")
+
+    print("Final Accuracy")
+    print(testset_accuracy[-1])
+    print(time.time() - start_time)
     ########################
     # END OF YOUR CODE    #
     #######################

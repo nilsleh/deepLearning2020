@@ -29,7 +29,9 @@ class LinearModule(object):
         # PUT YOUR CODE HERE  #
         #######################
         self.params = {}
+        
         self.params['weight'] = np.random.normal(0, 0.0001, (out_features, in_features))
+        
         self.params['bias'] = np.zeros((1, out_features))
 
         self.grads = {}
@@ -37,7 +39,6 @@ class LinearModule(object):
         self.grads['bias'] = np.zeros((1, out_features))
 
         self.intermediate = {}
-        self.intermediate["weight"] = self.params['weight'].copy()
         self.intermediate["x"] = np.zeros((in_features, 1))
 
         # raise NotImplementedError
@@ -65,14 +66,13 @@ class LinearModule(object):
         # PUT YOUR CODE HERE  #
         #######################
         batch_size = x.shape[0]
+
+        # store intermediate result
+        self.intermediate["x"] = x.copy()
         
         output_size = self.params["weight"].shape[0]
      
         out = x @ self.params["weight"].T + np.broadcast_to(self.params["bias"], (batch_size,output_size))
-
-        # store intermediate result
-        self.intermediate["x"] = x.copy()
-        # self.intermediate["weight"] = self.params["weight"].copy()
 
         ########################
         # END OF YOUR CODE    #
@@ -97,17 +97,16 @@ class LinearModule(object):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-
+        batch_size, n_neurons = dout.shape
         # compute gradient with respect to input of module
         
         dx = dout @ self.params["weight"]
         
-
         # store gradient updates
         self.grads["weight"] = dout.T @ self.intermediate["x"]
-        self.grads['bias'] = np.sum(dout, axis=0)[:, None].T
-        # self.grads["bias"] = 
-
+        # self.grads['bias'] = np.sum(dout, axis=0)[:, None].T
+        self.grads['bias'] = np.ones(batch_size) @ dout
+  
 
         ########################
         # END OF YOUR CODE    #
@@ -216,8 +215,8 @@ class CrossEntropyModule(object):
         
         batch_size = x.shape[0]
         log_x = np.log(x)
-        samples_loss = -(1 / batch_size) * np.sum(np.multiply(y, log_x), axis=1)
-        out = np.mean(samples_loss)
+        samples_loss = -np.sum(np.multiply(y, log_x), axis=1) / batch_size
+        out = np.sum(samples_loss)
 
         ########################
         # END OF YOUR CODE    #
@@ -243,11 +242,8 @@ class CrossEntropyModule(object):
         #######################
       
         batch_size = x.shape[0]
-        reciprocal_x = np.reciprocal(x)
-
-        dx = - (1 / batch_size**2) * np.multiply(y, reciprocal_x)
+        dx = - (np.divide(y, x)) / batch_size
         
-      
         ########################
         # END OF YOUR CODE    #
         #######################

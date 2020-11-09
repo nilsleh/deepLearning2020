@@ -88,6 +88,7 @@ class TestLosses(unittest.TestCase):
             X = np.exp(X - np.max(X, axis=1, keepdims=True))
             X /= np.sum(X, axis=1, keepdims=True)
             
+
             loss = CrossEntropyModule().forward(X, y)
             grads = CrossEntropyModule().backward(X, y)
             
