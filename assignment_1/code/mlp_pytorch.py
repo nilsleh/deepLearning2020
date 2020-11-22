@@ -8,9 +8,6 @@ from __future__ import print_function
 
 import torch.nn as nn
 
-# TODO CHANGE BACK UTILS FILES WITH PATHS
-
-
 class MLP(nn.Module):
     """
     This class implements a Multi-layer Perceptron in PyTorch.
@@ -50,13 +47,6 @@ class MLP(nn.Module):
                        nn.ELU()]
         layers += [nn.Linear(layer_sizes[-1], n_classes)]
         self.netLayers = nn.Sequential(*layers)
-
-        # self.netLayers = nn.ModuleList()
-        # layer_sizes = [n_inputs] + n_hidden
-        # for idx in range(1, len(layer_sizes)):
-        #     self.netLayers += [nn.Linear(layer_sizes[idx-1], layer_sizes[idx]),
-        #                nn.ELU()]
-        # self.netLayers += [nn.Linear(layer_sizes[-1], n_classes)]
     
 
         # raise NotImplementedError
@@ -81,11 +71,7 @@ class MLP(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        # for layer in self.netLayers:
-        #   #print(x.shape)
-        #   x = layer(x)
-
-        # out = x
+      
         out = self.netLayers(x)
   
         # raise NotImplementedError

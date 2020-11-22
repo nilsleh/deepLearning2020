@@ -10,7 +10,6 @@ import argparse
 import numpy as np
 import os
 from mlp_pytorch import MLP
-# import cifar10_utilsLisa
 import cifar10_utils
 
 import torch
@@ -98,12 +97,7 @@ def train():
     # PUT YOUR CODE HERE  #
     #######################
 
-    # TODO Something that tracks runtime
-
     # get the data
-    # TODO get_cifar10 takes parameter that specifies size of validation set
-    # data_dict = cifar10_utilsLisa.get_cifar10(
-    #     data_dir=FLAGS.data_dir, validation_size=0)
     data_dict = cifar10_utils.get_cifar10(
         data_dir=FLAGS.data_dir, validation_size=0)
     trainset = data_dict["train"]
@@ -116,7 +110,7 @@ def train():
     n_input = n_channels * height * width
     n_hidden = dnn_hidden_units
     n_classes = trainset.labels[0].shape[0]
-    eta = FLAGS.learning_rate
+    lr = FLAGS.learning_rate
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     if torch.cuda.is_available():
@@ -126,8 +120,6 @@ def train():
     # create MLP model
     model = MLP(n_input, n_hidden, n_classes)
 
-    print(model)
-
     # push model to device
     model.to(device)
 
@@ -135,10 +127,7 @@ def train():
     loss_module = nn.CrossEntropyLoss()
 
     # define optimizer
-    optimizer = torch.optim.SGD(model.parameters(), eta)
-
-    # lr scheduler
-    # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, FLAGS.max_steps)
+    optimizer = torch.optim.SGD(model.parameters(), lr)
 
     #######################
     ###### training #######
@@ -191,8 +180,6 @@ def train():
         # update parameters
         optimizer.step()
 
-        # scheduler.step()
-
         # update running loss
         running_loss += loss.item() 
 
@@ -201,18 +188,13 @@ def train():
 
         # if iter_step == eval_frequency:
         if iter_step % eval_frequency == eval_frequency - 1:
-            print(iter_step)
             # training loss
             current_loss = running_loss / (eval_frequency)
-            print('[%d] loss: %.3f' %
-                  (iter_step + 1, current_loss))
             training_loss.append(current_loss)
             running_loss = 0.0
 
             # training acc
             current_acc = running_acc / (eval_frequency)
-            print('[%d] accuracy: %.3f' %
-                  (iter_step + 1, current_acc))
             training_accuracy.append(current_acc)
             running_acc = 0.0
 
@@ -270,8 +252,8 @@ def train():
                 # set model to training mode again
                 model.train()
 
-    print("Final Test Loss")
-    print(testset_accuracy[-1])
+    # print("Final Test Loss")
+    # print(testset_accuracy[-1])
     # # plot the train and validation loss
     fig = plt.figure(figsize=(12, 4))
     ax1 = fig.add_subplot(121)
@@ -290,9 +272,7 @@ def train():
     ax2.set_title("Training and Test Accuracy")
     ax2.legend()
     plt.show()
-    fig.savefig("./results/pytorchMLP.png")
-
-   
+    # fig.savefig("./results/pytorchMLP.png")
 
     # raise NotImplementedError
     ########################

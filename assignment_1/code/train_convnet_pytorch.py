@@ -10,8 +10,7 @@ import argparse
 import numpy as np
 import os
 from convnet_pytorch import ConvNet
-import cifar10_utilsLisa
-#import cifar10_utils
+import cifar10_utils
 import matplotlib.pyplot as plt
 import time
 
@@ -89,11 +88,9 @@ def train():
     #######################
     start_time = time.time()
 
-
-    data_dict = cifar10_utilsLisa.get_cifar10(
+    data_dict = cifar10_utils.get_cifar10(
         data_dir=FLAGS.data_dir, validation_size=0)
-    # data_dict = cifar10_utils.get_cifar10(
-    #     data_dir=FLAGS.data_dir, validation_size=0)
+
     trainset = data_dict["train"]
     validationset = data_dict["validation"]
     testset = data_dict["test"]
@@ -110,13 +107,19 @@ def train():
     # create Conv Net
     model = ConvNet(n_channels, n_classes)
 
+    # sum of parameters
+    # print(sum([np.prod(p.shape) for p in model.parameters()]))
+
     model.to(device)
 
     # define loss function
     loss_module = nn.CrossEntropyLoss()
 
     # define opotimizer
-    optimizer = torch.optim.Adam(model.parameters(), FLAGS.learning_rate)
+    if FLAGS.optimizer == "ADAM":
+        optimizer = torch.optim.Adam(model.parameters(), FLAGS.learning_rate)
+    else:
+        optimizer = torch.optim.SGD(model.parameters(), FLAGS.learning_rate)
 
     #######################
     ###### training #######
@@ -254,9 +257,9 @@ def train():
     plt.show()
     fig.savefig("./results/pytorchCNN.png")
 
-    print("Final Accuracy")
-    print(testset_accuracy[-1])
-    print(time.time() - start_time)
+    # print("Final Accuracy")
+    # print(testset_accuracy[-1])
+    # print(time.time() - start_time)
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -287,6 +290,8 @@ def main():
 if __name__ == '__main__':
     # Command line arguments
     parser = argparse.ArgumentParser()
+    parser.add_argument('--optimizer', type=str, default=OPTIMIZER_DEFAULT,
+                        help='which optimizer to use')
     parser.add_argument('--learning_rate', type=float, default=LEARNING_RATE_DEFAULT,
                         help='Learning rate')
     parser.add_argument('--max_steps', type=int, default=MAX_STEPS_DEFAULT,

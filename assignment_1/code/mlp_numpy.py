@@ -38,12 +38,10 @@ class MLP(object):
         self.layers = []
         layer_sizes = [n_inputs] + n_hidden
         for idx in range(1, len(layer_sizes)):
-          
           self.layers += [LinearModule(layer_sizes[idx-1], layer_sizes[idx]),
            ELUModule()]
         self.layers += [LinearModule(layer_sizes[-1], n_classes), SoftMaxModule()]
 
-        print(self.layers)
         ########################
         # END OF YOUR CODE    #
         #######################

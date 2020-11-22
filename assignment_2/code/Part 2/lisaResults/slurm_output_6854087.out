@@ -1,0 +1,35 @@
+txt_file : ./assets/book_EN_grimms_fairy_tails.txt
+seq_length : 30
+lstm_num_hidden : 128
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 1000000.0
+max_norm : 5.0
+device : cuda:0
+summary_path : ./summaries/
+print_every : 500
+sample_every : 100
+/home/lgpu0336
+Initialize dataset with 550595 characters, 91 unique.
+[2020-11-20 17:45] Train Step 0499/1000000, Batch Size = 64,                     Examples/Sec = 1371.05, Accuracy = 0.10, Loss = 1.736
+[2020-11-20 17:45] Train Step 0999/1000000, Batch Size = 64,                     Examples/Sec = 1245.97, Accuracy = 0.10, Loss = 1.553
+[2020-11-20 17:46] Train Step 1499/1000000, Batch Size = 64,                     Examples/Sec = 1427.96, Accuracy = 0.08, Loss = 1.566
+[2020-11-20 17:46] Train Step 1999/1000000, Batch Size = 64,                     Examples/Sec = 1313.48, Accuracy = 0.10, Loss = 1.390
+[2020-11-20 17:47] Train Step 2499/1000000, Batch Size = 64,                     Examples/Sec = 1380.44, Accuracy = 0.10, Loss = 1.436
+[2020-11-20 17:47] Train Step 2999/1000000, Batch Size = 64,                     Examples/Sec = 1267.58, Accuracy = 0.11, Loss = 1.382
+[2020-11-20 17:48] Train Step 3499/1000000, Batch Size = 64,                     Examples/Sec = 1369.00, Accuracy = 0.09, Loss = 1.326
+[2020-11-20 17:48] Train Step 3999/1000000, Batch Size = 64,                     Examples/Sec = 1230.69, Accuracy = 0.10, Loss = 1.290
+[2020-11-20 17:48] Train Step 4499/1000000, Batch Size = 64,                     Examples/Sec = 1270.93, Accuracy = 0.10, Loss = 1.245
+[2020-11-20 17:49] Train Step 4999/1000000, Batch Size = 64,                     Examples/Sec = 1357.69, Accuracy = 0.08, Loss = 1.319
+[2020-11-20 17:49] Train Step 5499/1000000, Batch Size = 64,                     Examples/Sec = 1277.60, Accuracy = 0.09, Loss = 1.224
+[2020-11-20 17:50] Train Step 5999/1000000, Batch Size = 64,                     Examples/Sec = 1404.85, Accuracy = 0.10, Loss = 1.205
+[2020-11-20 17:50] Train Step 6499/1000000, Batch Size = 64,                     Examples/Sec = 1261.14, Accuracy = 0.08, Loss = 1.306
+[2020-11-20 17:51] Train Step 6999/1000000, Batch Size = 64,                     Examples/Sec = 1346.20, Accuracy = 0.09, Loss = 1.260
+[2020-11-20 17:51] Train Step 7499/1000000, Batch Size = 64,                     Examples/Sec = 1386.48, Accuracy = 0.09, Loss = 1.192
+[2020-11-20 17:52] Train Step 7999/1000000, Batch Size = 64,                     Examples/Sec = 1381.62, Accuracy = 0.11, Loss = 1.195
+[2020-11-20 17:52] Train Step 8499/1000000, Batch Size = 64,                     Examples/Sec = 1320.05, Accuracy = 0.09, Loss = 1.222
+Done training.

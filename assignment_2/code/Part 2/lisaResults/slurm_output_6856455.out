@@ -1,0 +1,50 @@
+txt_file : ./assets/book_EN_grimms_fairy_tails.txt
+seq_length : 30
+lstm_num_hidden : 128
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 1000000.0
+max_norm : 5.0
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_every : 100
+Initialize dataset with 550595 characters, 91 unique.
+[2020-11-22 13:48] Train Step 0999/1000000, Batch Size = 64,                         Examples/Sec = 1743.65, Accuracy = 0.53, Loss = 0.727
+[2020-11-22 13:49] Train Step 1999/1000000, Batch Size = 64,                         Examples/Sec = 1858.89, Accuracy = 0.56, Loss = 0.674
+[2020-11-22 13:49] Train Step 2999/1000000, Batch Size = 64,                         Examples/Sec = 1731.38, Accuracy = 0.57, Loss = 0.653
+[2020-11-22 13:50] Train Step 3999/1000000, Batch Size = 64,                         Examples/Sec = 1753.13, Accuracy = 0.60, Loss = 0.623
+[2020-11-22 13:51] Train Step 4999/1000000, Batch Size = 64,                         Examples/Sec = 1752.86, Accuracy = 0.60, Loss = 0.580
+[2020-11-22 13:51] Train Step 5999/1000000, Batch Size = 64,                         Examples/Sec = 1734.03, Accuracy = 0.60, Loss = 0.598
+[2020-11-22 13:52] Train Step 6999/1000000, Batch Size = 64,                         Examples/Sec = 1747.24, Accuracy = 0.63, Loss = 0.545
+[2020-11-22 13:53] Train Step 7999/1000000, Batch Size = 64,                         Examples/Sec = 1749.37, Accuracy = 0.62, Loss = 0.560
+[2020-11-22 13:53] Train Step 0395/1000000, Batch Size = 64,                         Examples/Sec = 1734.17, Accuracy = 0.61, Loss = 0.564
+[2020-11-22 13:54] Train Step 1395/1000000, Batch Size = 64,                         Examples/Sec = 1737.40, Accuracy = 0.61, Loss = 0.587
+[2020-11-22 13:55] Train Step 2395/1000000, Batch Size = 64,                         Examples/Sec = 1773.64, Accuracy = 0.63, Loss = 0.533
+[2020-11-22 13:55] Train Step 3395/1000000, Batch Size = 64,                         Examples/Sec = 1746.09, Accuracy = 0.64, Loss = 0.550
+[2020-11-22 13:56] Train Step 4395/1000000, Batch Size = 64,                         Examples/Sec = 1742.41, Accuracy = 0.63, Loss = 0.555
+[2020-11-22 13:57] Train Step 5395/1000000, Batch Size = 64,                         Examples/Sec = 1745.50, Accuracy = 0.62, Loss = 0.557
+[2020-11-22 13:57] Train Step 6395/1000000, Batch Size = 64,                         Examples/Sec = 1734.38, Accuracy = 0.65, Loss = 0.535
+[2020-11-22 13:58] Train Step 7395/1000000, Batch Size = 64,                         Examples/Sec = 1751.60, Accuracy = 0.63, Loss = 0.531
+[2020-11-22 13:59] Train Step 8395/1000000, Batch Size = 64,                         Examples/Sec = 1739.90, Accuracy = 0.64, Loss = 0.537
+[2020-11-22 13:59] Train Step 0791/1000000, Batch Size = 64,                         Examples/Sec = 1740.75, Accuracy = 0.65, Loss = 0.510
+[2020-11-22 14:00] Train Step 1791/1000000, Batch Size = 64,                         Examples/Sec = 1750.40, Accuracy = 0.65, Loss = 0.514
+[2020-11-22 14:01] Train Step 2791/1000000, Batch Size = 64,                         Examples/Sec = 1734.29, Accuracy = 0.64, Loss = 0.528
+[2020-11-22 14:01] Train Step 3791/1000000, Batch Size = 64,                         Examples/Sec = 1751.13, Accuracy = 0.66, Loss = 0.498
+[2020-11-22 14:02] Train Step 4791/1000000, Batch Size = 64,                         Examples/Sec = 1735.00, Accuracy = 0.64, Loss = 0.533
+[2020-11-22 14:03] Train Step 5791/1000000, Batch Size = 64,                         Examples/Sec = 1746.15, Accuracy = 0.65, Loss = 0.524
+[2020-11-22 14:03] Train Step 6791/1000000, Batch Size = 64,                         Examples/Sec = 1713.08, Accuracy = 0.66, Loss = 0.518
+[2020-11-22 14:04] Train Step 7791/1000000, Batch Size = 64,                         Examples/Sec = 1753.67, Accuracy = 0.66, Loss = 0.512
+[2020-11-22 14:05] Train Step 0187/1000000, Batch Size = 64,                         Examples/Sec = 1756.35, Accuracy = 0.65, Loss = 0.532
+[2020-11-22 14:05] Train Step 1187/1000000, Batch Size = 64,                         Examples/Sec = 1732.04, Accuracy = 0.65, Loss = 0.519
+[2020-11-22 14:06] Train Step 2187/1000000, Batch Size = 64,                         Examples/Sec = 1734.62, Accuracy = 0.65, Loss = 0.506
+[2020-11-22 14:07] Train Step 3187/1000000, Batch Size = 64,                         Examples/Sec = 1744.54, Accuracy = 0.65, Loss = 0.511
+[2020-11-22 14:07] Train Step 4187/1000000, Batch Size = 64,                         Examples/Sec = 1751.62, Accuracy = 0.64, Loss = 0.531
+[2020-11-22 14:08] Train Step 5187/1000000, Batch Size = 64,                         Examples/Sec = 1742.24, Accuracy = 0.64, Loss = 0.544
+[2020-11-22 14:09] Train Step 6187/1000000, Batch Size = 64,                         Examples/Sec = 1738.34, Accuracy = 0.66, Loss = 0.504
+[2020-11-22 14:09] Train Step 7187/1000000, Batch Size = 64,                         Examples/Sec = 1743.60, Accuracy = 0.66, Loss = 0.515
+[2020-11-22 14:10] Train Step 8187/1000000, Batch Size = 64,                         Examples/Sec = 1741.41, Accuracy = 0.67, Loss = 0.505

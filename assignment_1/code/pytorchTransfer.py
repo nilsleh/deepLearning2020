@@ -1,5 +1,5 @@
 """
-This module implements training and evaluation of a multi-layer perceptron in NumPy.
+This module implements training and evaluation of a Convolutional Neural Network in PyTorch.
 You should fill in code into indicated sections.
 """
 from __future__ import absolute_import
@@ -9,17 +9,22 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import os
-from mlp_numpy import MLP
-from modules import CrossEntropyModule
+# import cifar10_utilsLisa
 import cifar10_utils
 import matplotlib.pyplot as plt
+import time
+
+import torch
+import torch.nn as nn
+from torch.optim import lr_scheduler
+import torchvision
 
 # Default constants
-DNN_HIDDEN_UNITS_DEFAULT = '100'
-LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 1400
-BATCH_SIZE_DEFAULT = 200
-EVAL_FREQ_DEFAULT = 100
+LEARNING_RATE_DEFAULT = 1e-4
+BATCH_SIZE_DEFAULT = 32
+MAX_STEPS_DEFAULT = 5000
+EVAL_FREQ_DEFAULT = 500
+OPTIMIZER_DEFAULT = 'ADAM'
 
 # Directory in which cifar data is saved
 DATA_DIR_DEFAULT = './cifar10/cifar-10-batches-py'
@@ -31,6 +36,7 @@ def accuracy(predictions, targets):
     """
     Computes the prediction accuracy, i.e. the average of correct predictions
     of the network.
+    
     Args:
       predictions: 2D float array of size [batch_size, n_classes]
       labels: 2D int array of size [batch_size, n_classes]
@@ -39,75 +45,92 @@ def accuracy(predictions, targets):
     Returns:
       accuracy: scalar float, the accuracy of predictions,
                 i.e. the average correct predictions over the whole batch
+    
     TODO:
     Implement accuracy computation.
     """
-
+    
     ########################
     # PUT YOUR CODE HERE  #
     #######################
+    # find argmax of prediction
+
     batch_size, _ = predictions.shape
 
-    prediction_argmax = np.argmax(predictions, axis=1)
-    targets_argmax = np.argmax(targets, axis=1)
+    predictions_argmax = predictions.argmax(dim=1)
 
-    correct = np.sum(prediction_argmax == targets_argmax)
+    targets_argmax = targets.argmax(dim=1)
+    
+    correct = torch.sum(predictions_argmax == targets_argmax)
 
-    accuracy = correct / float(batch_size)
+    accuracy = correct.item() / float(batch_size)
 
     ########################
     # END OF YOUR CODE    #
     #######################
-
+    
     return accuracy
 
 
 def train():
     """
-    Performs training and evaluation of MLP model.
+    Performs training and evaluation of ConvNet model.
+  
     TODO:
-    Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
+    Implement training and evaluation of ConvNet model. Evaluate your model on the whole test set each eval_freq iterations.
     """
-
+    
     ### DO NOT CHANGE SEEDS!
     # Set the random seeds for reproducibility
     np.random.seed(42)
-
-    ## Prepare all functions
-    # Get number of units in each hidden layer specified in the string such as 100,100
-    if FLAGS.dnn_hidden_units:
-        dnn_hidden_units = FLAGS.dnn_hidden_units.split(",")
-        dnn_hidden_units = [int(dnn_hidden_unit_) for dnn_hidden_unit_ in dnn_hidden_units]
-    else:
-        dnn_hidden_units = []
-
+    torch.manual_seed(42)
+    
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    np.random.seed(0)
+    start_time = time.time()
 
 
+    # data_dict = cifar10_utilsLisa.get_cifar10(
+    #     data_dir=FLAGS.data_dir, validation_size=0)
     data_dict = cifar10_utils.get_cifar10(
         data_dir=FLAGS.data_dir, validation_size=0)
     trainset = data_dict["train"]
     validationset = data_dict["validation"]
     testset = data_dict["test"]
 
-    # get correct dimensions
-    n_channels, height, width = trainset.images[0].shape
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(42)
+        torch.cuda.manual_seed_all(42)
 
-    n_input = n_channels * height * width
-    n_hidden = dnn_hidden_units
-    n_classes = trainset.labels[0].shape[0]
+    # create Conv Net
+    model = torchvision.models.resnet34(pretrained=True)
 
-    lr = FLAGS.learning_rate
+    model.fc = nn.Linear(512, 10)
 
-    model = MLP(n_input, dnn_hidden_units, n_classes)
+    model.to(device)
 
-    loss_module = CrossEntropyModule() 
-
-    train_batch_size = FLAGS.batch_size
+    # sum of parameters
+    print("Model has %d parameters".format(sum([np.prod(p.shape) for p in model.parameters()])))
     
+    # define loss function
+    loss_module = nn.CrossEntropyLoss()
+
+    # define opotimizer
+    optimizer = torch.optim.Adam(model.parameters(), FLAGS.learning_rate)
+
+    # lr scheduler
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=1500, gamma=0.1)
+
+    #######################
+    ###### training #######
+    #######################
+
+    # set model to train mode
+
+    model.train()
+
     training_loss = []
     testset_loss = []
 
@@ -117,30 +140,39 @@ def train():
     running_loss = 0.0
     running_acc = 0.0
 
+    train_batch_size = FLAGS.batch_size
     eval_frequency = FLAGS.eval_freq
 
     for iter_step in range(FLAGS.max_steps):
-        train_images, train_labels = trainset.next_batch(train_batch_size)
-        train_vector = np.reshape(train_images, (train_batch_size, -1))
-
-        train_output = model.forward(train_vector)
-
-        # compute loss
-        train_loss = loss_module.forward(train_output, train_labels)
         
-        # start backpropagation
-        backprop_loss_module = loss_module.backward(train_output, train_labels)
+        # get next batch
+        train_images, train_labels = trainset.next_batch(train_batch_size)
 
-        model.backward(backprop_loss_module)
+        # convert numpy array to torch tensor
+        train_images = torch.from_numpy(train_images)
+        train_labels = torch.from_numpy(train_labels)
+
+        # move input data to device if available
+        train_images, train_labels = train_images.to(device), train_labels.to(device)
+
+        # run model on input data
+        train_output = model(train_images)
+
+        # argmax so that loss_module can evaluate output
+        train_labels_argmax = torch.argmax(train_labels, dim=1)
+
+        # calculate loss
+        loss = loss_module(train_output, train_labels_argmax)
+
+        # perform backpropagation
+        optimizer.zero_grad()
+        loss.backward()
 
         # update parameters
-        for idx in range(0, len(model.layers), 2):
-            linear_layer = model.layers[idx]
-            linear_layer.params["weight"] -= lr * linear_layer.grads["weight"]
-            linear_layer.params["bias"] -= lr * linear_layer.grads["bias"]
+        optimizer.step()
 
         # update running loss
-        running_loss += train_loss
+        running_loss += loss.item() 
 
         # running accuracy
         running_acc += accuracy(train_output, train_labels)
@@ -156,18 +188,60 @@ def train():
             training_accuracy.append(current_acc)
             running_acc = 0.0
 
-            # keep track testset loss and accuracy do one pass of testdataset
-            num_examples_test = testset.num_examples
-            test_images, test_labels = testset.images, testset.labels
-            test_vector = np.reshape(test_images, (num_examples_test, -1))
-            test_output = model.forward(test_vector) 
-            test_loss = loss_module.forward(test_output, test_labels)
-            test_acc = accuracy(test_output, test_labels)
+            # get testset loss and accuracy
+            model.eval()
 
-            testset_loss.append(test_loss)
-            testset_accuracy.append(test_acc)
+            with torch.no_grad():
 
-    
+                test_epochs_completed = 0.0
+
+                running_test_loss = 0.0
+                running_test_acc = 0.0
+
+                test_step_iter = 0.0
+                test_batch_size = FLAGS.batch_size
+
+                test_set_img_counter = 0.0
+                num_examples_test = testset.num_examples
+
+                while test_set_img_counter < num_examples_test:
+                    # get next test batch
+                    test_images, test_labels = testset.next_batch(test_batch_size)
+
+                    # convert numpy array to torch tensor
+                    test_images = torch.from_numpy(test_images)
+                    test_labels = torch.from_numpy(test_labels)
+
+                    # move input data to device if available
+                    test_images, test_labels = test_images.to(device), test_labels.to(device)
+
+                    # predictions for test set
+                    test_output = model(test_images)
+
+                    test_labels_argmax = torch.argmax(test_labels, dim=1)
+
+                    test_loss = loss_module(test_output, test_labels_argmax)
+
+                    # update running loss
+                    running_test_loss += test_loss.item() 
+
+                    # running accuracy
+                    running_test_acc += accuracy(test_output, test_labels)
+
+                    test_step_iter += 1
+
+                    test_set_img_counter += test_batch_size
+
+                    
+                testset_loss.append(running_test_loss / test_step_iter)
+                testset_accuracy.append(running_test_acc / test_step_iter)
+
+        # set model to training mode again
+        model.train()
+
+        # scheduler
+        scheduler.step()
+
     # plot the train and validation loss
     fig = plt.figure(figsize=(12, 4))
     ax1 = fig.add_subplot(121)
@@ -186,9 +260,11 @@ def train():
     ax2.set_title("Training and Test Accuracy")
     ax2.legend()
     plt.show()
-    # fig.savefig("./results/numpyMLP_accuracy.png")
+    fig.savefig("./results/pytorchCNN.png")
 
-    # raise NotImplementedError
+    print("Final Accuracy")
+    print(testset_accuracy[-1])
+    print(time.time() - start_time)
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -208,10 +284,10 @@ def main():
     """
     # Print all Flags to confirm parameter settings
     print_flags()
-
+    
     if not os.path.exists(FLAGS.data_dir):
         os.makedirs(FLAGS.data_dir)
-
+    
     # Run the training operation
     train()
 
@@ -219,8 +295,6 @@ def main():
 if __name__ == '__main__':
     # Command line arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dnn_hidden_units', type=str, default=DNN_HIDDEN_UNITS_DEFAULT,
-                        help='Comma separated list of number of units in each hidden layer')
     parser.add_argument('--learning_rate', type=float, default=LEARNING_RATE_DEFAULT,
                         help='Learning rate')
     parser.add_argument('--max_steps', type=int, default=MAX_STEPS_DEFAULT,
@@ -232,5 +306,5 @@ if __name__ == '__main__':
     parser.add_argument('--data_dir', type=str, default=DATA_DIR_DEFAULT,
                         help='Directory for storing input data')
     FLAGS, unparsed = parser.parse_known_args()
-
+    
     main()

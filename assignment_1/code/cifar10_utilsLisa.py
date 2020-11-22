@@ -47,6 +47,10 @@ def load_cifar10(cifar10_folder):
     Xs = []
     Ys = []
     for b in range(1, 6):
+      ### changed
+        # directory = os.path.join(os.getcwd(), 'cifar10\\cifar-10-batches-py')
+        # batch_filename = os.path.join(directory, 'data_batch_' + str(b))
+        # changed
         batch_filename = os.path.join(cifar10_folder, 'data_batch_' + str(b))
         X, Y = load_cifar10_batch(batch_filename)
         Xs.append(X)

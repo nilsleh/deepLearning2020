@@ -2,6 +2,8 @@
 __pycache__/
 .vscode/
 cifar10/
+assets/
 lisaOutput/
 numpy_comparison.txt
 pytorch_comparison.txt
+*.zip
