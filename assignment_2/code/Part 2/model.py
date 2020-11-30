@@ -24,7 +24,7 @@ import torch
 class TextGenerationModel(nn.Module):
 
     def __init__(self, batch_size, seq_length, vocabulary_size,
-                 lstm_num_hidden=256, lstm_num_layers=2, device='cuda:0'):
+                 lstm_num_hidden=256, lstm_num_layers=2, device='cuda:0', dropout=1.0):
 
         super(TextGenerationModel, self).__init__()
         self.seq_length = seq_length
@@ -36,22 +36,20 @@ class TextGenerationModel(nn.Module):
 
         self.linear = nn.Linear(lstm_num_hidden, vocabulary_size)
 
-         
-    def forward(self, x):
+    def forward(self, x, h_state=None, c_state=None):
+
         embed_x = self.embedding(x)
 
-        output, (h_state, c_state) = self.lstm(embed_x)
-        output = self.linear(output)
+        if h_state is None and c_state is None:
+            output, (h_state, c_state) = self.lstm(embed_x)
+            output = self.linear(output)
 
-        # y_hat_t = []
-        
-        # # for time_step in range(self.seq_length): 
-        # for time_step in range(output.shape[0]):
+            return output 
+
+        # if state is available use it
+        else:
+            output, (h_state, c_state) = self.lstm(embed_x, (h_state, c_state))
+            output = self.linear(output)
+
+            return output, h_state, c_state 
             
-        #     seq_output = output[time_step, :, :]
-        #     y_hat_seq = torch.nn.functional.log_softmax(seq_output, dim=1)
-        #     y_hat_t.append(y_hat_seq)
-
-        # y_hat_t = torch.stack(y_hat_t)
-
-        return output

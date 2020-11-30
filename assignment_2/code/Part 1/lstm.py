@@ -14,18 +14,15 @@ import torch
 class LSTM(nn.Module):
 
     def __init__(self, seq_length, input_dim, hidden_dim, num_classes,
-                 batch_size, device):
+                 batch_size, device, embed_dim=1):
 
         super(LSTM, self).__init__()
         ########################
         # PUT YOUR CODE HERE  #
-        #######################
-        # assuming that input data is sequence_length x batch_size so transposed input
-        # self.h_init = torch.zeros(hidden_dim, batch_size)
-        print("Input DIM")
-        print(input_dim)
+        ####################### 
+      
         self.seq_length = seq_length - 1
-        self.embedding_size = input_dim
+        self.embedding_size = embed_dim
         self.embedding = nn.Embedding(seq_length, self.embedding_size)
 
         self.W_gx = nn.Parameter(torch.empty(self.embedding_size, hidden_dim))
@@ -70,28 +67,15 @@ class LSTM(nn.Module):
 
         # make embedding of input
         ### RANDOM COMBINATIONS ###
-      
-        #x = torch.LongTensor(x).type(torch.LongTensor)
-        # x_embedded = self.embedding(x.type(torch.LongTensor))
-        # print("Batch input shape")
-        # print(x.shape)
-        # print("batch input")
-        # print(x)
 
         hidden_state = self.h_init
         cell_state = self.c_init
 
         embed_x = self.embedding(x.type(torch.LongTensor))
-        # print("Embed Full")
-        # print(embed_x.shape)
+        
         for time_step in range(self.seq_length):
-            # print(time_step)
 
             embed_seq = embed_x[:, time_step, :]
-            # print("Embed shape")
-            # print(embed_seq.shape)
-            # print("W_gx")
-            # print(self.W_gx.shape)
             
             g_t = torch.tanh(torch.mm(embed_seq , self.W_gx) + torch.mm(hidden_state, self.W_gh) + self.b_g)
 

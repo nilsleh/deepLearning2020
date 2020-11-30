@@ -1,0 +1,87 @@
+Initialize dataset with 205988 characters, 124 unique.
+txt_file : ./assets/odyssey.txt
+seq_length : 30
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 26000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 30
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 124
+[2020-11-26 22:51] Train Step 1000/26000, Batch Size = 64,                         Examples/Sec = 4318.53, Accuracy = 0.54, Loss = 1.563
+[2020-11-26 22:51] Train Step 2000/26000, Batch Size = 64,                         Examples/Sec = 3781.47, Accuracy = 0.61, Loss = 1.334
+[2020-11-26 22:52] Train Step 3000/26000, Batch Size = 64,                         Examples/Sec = 3726.77, Accuracy = 0.60, Loss = 1.291
+[2020-11-26 22:52] Train Step 4000/26000, Batch Size = 64,                         Examples/Sec = 3878.40, Accuracy = 0.64, Loss = 1.184
+[2020-11-26 22:52] Train Step 5000/26000, Batch Size = 64,                         Examples/Sec = 3706.14, Accuracy = 0.63, Loss = 1.220
+[2020-11-26 22:53] Train Step 6000/26000, Batch Size = 64,                         Examples/Sec = 3818.48, Accuracy = 0.59, Loss = 1.308
+[2020-11-26 22:53] Train Step 7000/26000, Batch Size = 64,                         Examples/Sec = 4595.55, Accuracy = 0.62, Loss = 1.227
+[2020-11-26 22:53] Train Step 8000/26000, Batch Size = 64,                         Examples/Sec = 4437.24, Accuracy = 0.64, Loss = 1.174
+Generated Text at trainstep 8666
+[11] and a poets, and spake un
+πhis sons of the sea, and the 
+ènow all the story of the sea,
+re they say that he may come t
+ν saying: “Take he bore the se
+[2020-11-26 22:53] Train Step 9000/26000, Batch Size = 64,                         Examples/Sec = 4506.07, Accuracy = 0.65, Loss = 1.133
+[2020-11-26 22:54] Train Step 10000/26000, Batch Size = 64,                         Examples/Sec = 4500.93, Accuracy = 0.65, Loss = 1.102
+[2020-11-26 22:54] Train Step 11000/26000, Batch Size = 64,                         Examples/Sec = 3721.60, Accuracy = 0.68, Loss = 1.014
+[2020-11-26 22:54] Train Step 12000/26000, Batch Size = 64,                         Examples/Sec = 3791.78, Accuracy = 0.72, Loss = 0.937
+[2020-11-26 22:55] Train Step 13000/26000, Batch Size = 64,                         Examples/Sec = 3771.96, Accuracy = 0.73, Loss = 0.912
+[2020-11-26 22:55] Train Step 14000/26000, Batch Size = 64,                         Examples/Sec = 3834.57, Accuracy = 0.75, Loss = 0.819
+[2020-11-26 22:55] Train Step 15000/26000, Batch Size = 64,                         Examples/Sec = 4497.46, Accuracy = 0.73, Loss = 0.836
+[2020-11-26 22:56] Train Step 16000/26000, Batch Size = 64,                         Examples/Sec = 4358.57, Accuracy = 0.76, Loss = 0.812
+[2020-11-26 22:56] Train Step 17000/26000, Batch Size = 64,                         Examples/Sec = 4344.25, Accuracy = 0.75, Loss = 0.800
+Generated Text at trainstep 17332
+] thou hast heard the grey-eye
+ïon. He came to him in the hal
+ἔλσας can bear the composite p
+***
+
+
+
+
+Produced his sons was 
+έοντε and τερπομένω are here t
+[2020-11-26 22:56] Train Step 18000/26000, Batch Size = 64,                         Examples/Sec = 3930.87, Accuracy = 0.73, Loss = 0.858
+[2020-11-26 22:56] Train Step 19000/26000, Batch Size = 64,                         Examples/Sec = 4337.65, Accuracy = 0.73, Loss = 0.856
+[2020-11-26 22:57] Train Step 20000/26000, Batch Size = 64,                         Examples/Sec = 4755.03, Accuracy = 0.72, Loss = 0.845
+[2020-11-26 22:57] Train Step 21000/26000, Batch Size = 64,                         Examples/Sec = 4453.51, Accuracy = 0.76, Loss = 0.758
+[2020-11-26 22:57] Train Step 22000/26000, Batch Size = 64,                         Examples/Sec = 4300.40, Accuracy = 0.77, Loss = 0.721
+[2020-11-26 22:58] Train Step 23000/26000, Batch Size = 64,                         Examples/Sec = 4675.11, Accuracy = 0.78, Loss = 0.700
+[2020-11-26 22:58] Train Step 24000/26000, Batch Size = 64,                         Examples/Sec = 4588.09, Accuracy = 0.80, Loss = 0.633
+[2020-11-26 22:58] Train Step 25000/26000, Batch Size = 64,                         Examples/Sec = 3864.72, Accuracy = 0.80, Loss = 0.628
+Generated Text at trainstep 25998
+But when they had reached home
+”
+
+Then wise Telemachus answer
+he sea-beach. So soon as early
+ος, vain saying: “Old man, tho
+0] I pray thee to be free. And
+[2020-11-26 22:58] Train Step 26000/26000, Batch Size = 64,                         Examples/Sec = 4439.15, Accuracy = 0.80, Loss = 0.635
+[2020-11-26 22:59] Train Step 27000/26000, Batch Size = 64,                         Examples/Sec = 3939.41, Accuracy = 0.80, Loss = 0.648
+[2020-11-26 22:59] Train Step 28000/26000, Batch Size = 64,                         Examples/Sec = 3948.22, Accuracy = 0.80, Loss = 0.678
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[73, 61, 58, 1, 76, 68, 71, 65, 57, 1, 62, 72, 1, 61, 58, 1, 72, 58, 58, 66, 58, 57, 1, 67, 68, 1, 66, 68, 71, 58, 1, 56, 61, 62, 65, 57, 71, 58, 67, 9, 1, 78, 58, 1, 66, 54, 71, 64, 58, 57, 1, 67, 68, 73, 1, 61, 62, 72, 1, 59, 54, 73, 61, 58, 71, 11, 0, 0, 0, 44, 58, 65, 58, 66, 54, 56, 61, 74, 72, 1, 54, 67, 72, 76, 58, 71, 58, 57, 1, 61]
+the world is he seemed no more children, ye marked not his father.
+
+
+Telemachus answered h

@@ -1,0 +1,83 @@
+Initialize dataset with 205988 characters, 124 unique.
+txt_file : ./assets/odyssey.txt
+seq_length : 50
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 26000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 124
+[2020-11-26 23:27] Train Step 1000/26000, Batch Size = 64,                         Examples/Sec = 3627.11, Accuracy = 0.56, Loss = 1.468
+[2020-11-26 23:28] Train Step 2000/26000, Batch Size = 64,                         Examples/Sec = 3663.45, Accuracy = 0.62, Loss = 1.262
+[2020-11-26 23:28] Train Step 3000/26000, Batch Size = 64,                         Examples/Sec = 3625.84, Accuracy = 0.65, Loss = 1.162
+[2020-11-26 23:28] Train Step 4000/26000, Batch Size = 64,                         Examples/Sec = 3377.35, Accuracy = 0.67, Loss = 1.088
+[2020-11-26 23:29] Train Step 5000/26000, Batch Size = 64,                         Examples/Sec = 3642.91, Accuracy = 0.67, Loss = 1.091
+[2020-11-26 23:29] Train Step 6000/26000, Batch Size = 64,                         Examples/Sec = 3533.81, Accuracy = 0.66, Loss = 1.083
+[2020-11-26 23:29] Train Step 7000/26000, Batch Size = 64,                         Examples/Sec = 3629.57, Accuracy = 0.67, Loss = 1.055
+[2020-11-26 23:30] Train Step 8000/26000, Batch Size = 64,                         Examples/Sec = 3627.21, Accuracy = 0.70, Loss = 1.018
+Generated Text at trainstep 8666
+8] I pray thee, and let the word of the winds, and
+of the wine-dark deep. And as the story of the win
+For I say, have seemed be of the sea, and said: “M
+ärchen hath his heart was gone with a god, and so 
+υs own country, for they were construction of the 
+[2020-11-26 23:30] Train Step 9000/26000, Batch Size = 64,                         Examples/Sec = 3313.98, Accuracy = 0.69, Loss = 0.968
+[2020-11-26 23:30] Train Step 10000/26000, Batch Size = 64,                         Examples/Sec = 3587.80, Accuracy = 0.73, Loss = 0.869
+[2020-11-26 23:31] Train Step 11000/26000, Batch Size = 64,                         Examples/Sec = 3294.09, Accuracy = 0.75, Loss = 0.785
+[2020-11-26 23:31] Train Step 12000/26000, Batch Size = 64,                         Examples/Sec = 3581.38, Accuracy = 0.79, Loss = 0.684
+[2020-11-26 23:32] Train Step 13000/26000, Batch Size = 64,                         Examples/Sec = 3061.85, Accuracy = 0.83, Loss = 0.591
+[2020-11-26 23:32] Train Step 14000/26000, Batch Size = 64,                         Examples/Sec = 3619.39, Accuracy = 0.84, Loss = 0.559
+[2020-11-26 23:32] Train Step 15000/26000, Batch Size = 64,                         Examples/Sec = 3599.01, Accuracy = 0.85, Loss = 0.527
+[2020-11-26 23:33] Train Step 16000/26000, Batch Size = 64,                         Examples/Sec = 3658.26, Accuracy = 0.84, Loss = 0.550
+[2020-11-26 23:33] Train Step 17000/26000, Batch Size = 64,                         Examples/Sec = 3454.63, Accuracy = 0.83, Loss = 0.560
+Generated Text at trainstep 17332
+Raper, and awakened with gold.”
+
+Even so he spake,
+έοντε and τερπομένω are here correlatives, and pou
+ό. And they came to the gods in the things that ha
+61, i. 1. Ἄργεος, which must be wrong.
+
+
+Telemachu
+Zeus, leader of the earth, so was the deathless go
+[2020-11-26 23:33] Train Step 18000/26000, Batch Size = 64,                         Examples/Sec = 3383.53, Accuracy = 0.83, Loss = 0.557
+[2020-11-26 23:34] Train Step 19000/26000, Batch Size = 64,                         Examples/Sec = 3499.22, Accuracy = 0.83, Loss = 0.543
+[2020-11-26 23:34] Train Step 20000/26000, Batch Size = 64,                         Examples/Sec = 3375.57, Accuracy = 0.84, Loss = 0.522
+[2020-11-26 23:34] Train Step 21000/26000, Batch Size = 64,                         Examples/Sec = 3517.51, Accuracy = 0.85, Loss = 0.507
+[2020-11-26 23:35] Train Step 22000/26000, Batch Size = 64,                         Examples/Sec = 3574.23, Accuracy = 0.87, Loss = 0.445
+[2020-11-26 23:35] Train Step 23000/26000, Batch Size = 64,                         Examples/Sec = 3558.55, Accuracy = 0.89, Loss = 0.405
+[2020-11-26 23:36] Train Step 24000/26000, Batch Size = 64,                         Examples/Sec = 3126.69, Accuracy = 0.90, Loss = 0.368
+[2020-11-26 23:36] Train Step 25000/26000, Batch Size = 64,                         Examples/Sec = 3640.05, Accuracy = 0.91, Loss = 0.350
+Generated Text at trainstep 25998
+ρπομένω are here correlatives, and denote respecti
+d the heart to make an end: so they devour and min
+Menelaus of the fair hair answered her, saying: “N
+θ Telemachus, the wooers who had been in ambush, a
+ze, and had in it much choice substance. I would t
+[2020-11-26 23:36] Train Step 26000/26000, Batch Size = 64,                         Examples/Sec = 3508.91, Accuracy = 0.91, Loss = 0.345
+[2020-11-26 23:37] Train Step 27000/26000, Batch Size = 64,                         Examples/Sec = 3665.20, Accuracy = 0.89, Loss = 0.389
+[2020-11-26 23:37] Train Step 28000/26000, Batch Size = 64,                         Examples/Sec = 3173.90, Accuracy = 0.87, Loss = 0.410
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[73, 61, 58, 1, 76, 68, 71, 65, 57, 1, 62, 72, 1, 67, 68, 73, 1, 72, 58, 58, 66, 65, 78, 1, 73, 68, 1, 38, 58, 72, 73, 68, 71, 9, 1, 54, 67, 57, 1, 59, 71, 68, 66, 1, 68, 59, 1, 73, 61, 58, 1, 40, 61, 54, 58, 54, 56, 62, 54, 67, 72, 9, 1, 54, 66, 68, 67, 60, 1, 73, 61, 54, 73, 1, 69, 58, 71, 62, 65, 9, 1, 55, 74, 73, 1, 54, 60, 54, 62, 67, 1, 76, 62, 73, 61, 1, 54, 66, 55, 71, 68, 72, 62, 54, 1, 54, 67, 57, 1, 72, 58, 73, 1, 62, 73, 1, 55, 78, 1, 61, 62, 66, 9, 0, 54, 67, 57, 1, 66, 62, 77, 58, 57, 1, 73, 61, 58, 1, 71, 74, 57, 57, 78, 1, 67, 58, 56, 73, 54, 71]
+the world is not seemly to Nestor, and from of the Phaeacians, among that peril, but again with ambrosia and set it by him,
+and mixed the ruddy nectar

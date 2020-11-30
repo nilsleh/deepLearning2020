@@ -1,0 +1,134 @@
+Initialize dataset with 197206 characters, 78 unique.
+txt_file : ./assets/stranger.txt
+seq_length : 30
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 128
+learning_rate : 0.001
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 25000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 78
+[2020-11-27 22:21] Train Step 1000/25000, Batch Size = 128,                         Examples/Sec = 8581.42, Accuracy = 0.58, Loss = 1.439
+[2020-11-27 22:21] Train Step 2000/25000, Batch Size = 128,                         Examples/Sec = 8659.91, Accuracy = 0.61, Loss = 1.257
+[2020-11-27 22:21] Train Step 3000/25000, Batch Size = 128,                         Examples/Sec = 8111.67, Accuracy = 0.63, Loss = 1.221
+[2020-11-27 22:21] Train Step 4000/25000, Batch Size = 128,                         Examples/Sec = 8143.17, Accuracy = 0.65, Loss = 1.126
+[2020-11-27 22:22] Train Step 5000/25000, Batch Size = 128,                         Examples/Sec = 8317.65, Accuracy = 0.65, Loss = 1.173
+[2020-11-27 22:22] Train Step 6000/25000, Batch Size = 128,                         Examples/Sec = 8455.06, Accuracy = 0.67, Loss = 1.096
+[2020-11-27 22:22] Train Step 7000/25000, Batch Size = 128,                         Examples/Sec = 8419.00, Accuracy = 0.66, Loss = 1.126
+[2020-11-27 22:23] Train Step 8000/25000, Batch Size = 128,                         Examples/Sec = 8637.06, Accuracy = 0.67, Loss = 1.076
+Generated Text at trainstep 8333
+One of the doorkeeper to the b||each. It was a plump
+Camus ♦ THE STRANGER 
+
+
+
+// 
+
+||
+
+IT was an excellen
+just one of the doorkeeper to ||the beach. It was a 
+me to say that he was a great ||delicate that the 
+s
+3 
+
+
+
+Albert Camus ♦ THE STRAN||GER 
+
+
+
+// 
+
+
+
+IT wa
+[2020-11-27 22:23] Train Step 9000/25000, Batch Size = 128,                         Examples/Sec = 8188.75, Accuracy = 0.68, Loss = 1.003
+[2020-11-27 22:23] Train Step 10000/25000, Batch Size = 128,                         Examples/Sec = 8907.17, Accuracy = 0.73, Loss = 0.912
+[2020-11-27 22:24] Train Step 11000/25000, Batch Size = 128,                         Examples/Sec = 8440.57, Accuracy = 0.75, Loss = 0.804
+[2020-11-27 22:24] Train Step 12000/25000, Batch Size = 128,                         Examples/Sec = 8358.18, Accuracy = 0.78, Loss = 0.739
+[2020-11-27 22:24] Train Step 13000/25000, Batch Size = 128,                         Examples/Sec = 8612.81, Accuracy = 0.79, Loss = 0.692
+[2020-11-27 22:25] Train Step 14000/25000, Batch Size = 128,                         Examples/Sec = 8840.44, Accuracy = 0.80, Loss = 0.656
+[2020-11-27 22:25] Train Step 15000/25000, Batch Size = 128,                         Examples/Sec = 8436.72, Accuracy = 0.81, Loss = 0.642
+[2020-11-27 22:25] Train Step 16000/25000, Batch Size = 128,                         Examples/Sec = 8272.66, Accuracy = 0.81, Loss = 0.645
+Generated Text at trainstep 16666
+For two said something that I ||hadn't any 
+guts. We
+Quite in a corner, make the co||mpany of others of 
+
+«th the conclusion that the co||urt will have to app
+(1958); a volume of plays, Cal||igula and Three 
+Oth
+4 
+
+
+
+Albert Camus ♦ THE STRAN||GER 
+
+
+
+/// 
+
+
+
+ON T
+[2020-11-27 22:26] Train Step 17000/25000, Batch Size = 128,                         Examples/Sec = 8339.09, Accuracy = 0.80, Loss = 0.650
+[2020-11-27 22:26] Train Step 18000/25000, Batch Size = 128,                         Examples/Sec = 8907.76, Accuracy = 0.80, Loss = 0.638
+[2020-11-27 22:26] Train Step 19000/25000, Batch Size = 128,                         Examples/Sec = 8800.73, Accuracy = 0.81, Loss = 0.634
+[2020-11-27 22:26] Train Step 20000/25000, Batch Size = 128,                         Examples/Sec = 9091.34, Accuracy = 0.81, Loss = 0.619
+[2020-11-27 22:27] Train Step 21000/25000, Batch Size = 128,                         Examples/Sec = 8293.36, Accuracy = 0.84, Loss = 0.551
+[2020-11-27 22:27] Train Step 22000/25000, Batch Size = 128,                         Examples/Sec = 9008.05, Accuracy = 0.85, Loss = 0.515
+[2020-11-27 22:27] Train Step 23000/25000, Batch Size = 128,                         Examples/Sec = 8447.48, Accuracy = 0.85, Loss = 0.489
+[2020-11-27 22:28] Train Step 24000/25000, Batch Size = 128,                         Examples/Sec = 8697.36, Accuracy = 0.86, Loss = 0.484
+Generated Text at trainstep 24999
+Prosecutor informed the charac||teristic sounds of a
+
+
+
+
+Albert Camus ♦ THE STRANGE||R 
+
+
+
+/// 
+
+
+
+ON THE
+xplained that the 
+newspapers ||were responsible for
+n the same fate was bound to "||choose" not only me 
+♦ THE STRANGER 
+
+
+
+/// 
+
+
+
+ON ||THE whole I can't sa
+[2020-11-27 22:28] Train Step 25000/25000, Batch Size = 128,                         Examples/Sec = 8925.53, Accuracy = 0.86, Loss = 0.467
+[2020-11-27 22:28] Train Step 26000/25000, Batch Size = 128,                         Examples/Sec = 9236.01, Accuracy = 0.87, Loss = 0.464
+Done training.
+Model saved
+Finish sentence
+the world is :
+[67, 55, 52, 1, 70, 62, 65, 59, 51, 1, 56, 66, 1, 66, 63, 52, 61, 67, 1, 56, 61, 1, 70, 48, 67, 50, 55, 56, 61, 54, 1, 67, 55, 52, 1, 66, 67, 65, 52, 52, 67, 9, 1, 43, 55, 52, 1, 54, 52, 61, 52, 65, 48, 59, 1, 0, 56, 51, 52, 48, 1, 55, 52, 65, 52, 48, 49, 62, 68, 67, 66, 1, 56, 66, 1, 67, 55, 48, 67, 1, 55, 52, 4, 66, 1, 48, 1, 63, 56, 60, 63, 9, 1, 25, 68, 67, 1, 56, 53, 1, 72, 62, 68, 1, 48, 66, 58, 1, 55, 56, 60, 1, 70, 55, 48, 67, 1, 55, 56, 66, 1, 57, 62, 49, 1, 56, 66, 7, 1, 55, 52, 1, 66, 48, 72, 66, 1, 55, 52, 4, 66, 1, 48, 1, 0, 70, 48, 65, 52, 55]
+the world is spent in watching the street. The general 
+idea hereabouts is that he's a pimp. But if you ask him what his job is, he says he's a 
+wareh

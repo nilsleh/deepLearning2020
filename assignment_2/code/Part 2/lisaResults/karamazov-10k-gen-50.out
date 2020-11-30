@@ -1,0 +1,59 @@
+Initialize dataset with 1957596 characters, 107 unique.
+txt_file : ./assets/karamazov.txt
+seq_length : 30
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 128
+learning_rate : 0.001
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 10000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 107
+[2020-11-27 17:33] Train Step 1000/10000, Batch Size = 128,                         Examples/Sec = 8375.52, Accuracy = 0.50, Loss = 1.674
+[2020-11-27 17:34] Train Step 2000/10000, Batch Size = 128,                         Examples/Sec = 8814.60, Accuracy = 0.56, Loss = 1.497
+[2020-11-27 17:34] Train Step 3000/10000, Batch Size = 128,                         Examples/Sec = 8258.66, Accuracy = 0.56, Loss = 1.442
+Generated Text at trainstep 3333
+, and the money and the money ||and the money and th
+0 I was a sent the same of the|| same of the same of
+X7™ the prosecutor with a sent|| the same of the sam
+Grushenka was a sent the same ||of the same of the s
+Question of the same of the sa||me of the same of th
+[2020-11-27 17:34] Train Step 4000/10000, Batch Size = 128,                         Examples/Sec = 8164.10, Accuracy = 0.56, Loss = 1.420
+[2020-11-27 17:35] Train Step 5000/10000, Batch Size = 128,                         Examples/Sec = 8221.23, Accuracy = 0.57, Loss = 1.426
+[2020-11-27 17:35] Train Step 6000/10000, Batch Size = 128,                         Examples/Sec = 8792.37, Accuracy = 0.57, Loss = 1.402
+Generated Text at trainstep 6666
+ut the money and the money and|| the money and the m
+Mitya was a sort of the contra||ry of the contrary t
+ou are not the same of the con||trary of the contrar
+]n the same of the contrary of|| the contrary to the
+Chapter I am a stand of the co||ntrary of the contra
+[2020-11-27 17:35] Train Step 7000/10000, Batch Size = 128,                         Examples/Sec = 8512.84, Accuracy = 0.57, Loss = 1.375
+[2020-11-27 17:35] Train Step 8000/10000, Batch Size = 128,                         Examples/Sec = 8585.40, Accuracy = 0.58, Loss = 1.377
+[2020-11-27 17:36] Train Step 9000/10000, Batch Size = 128,                         Examples/Sec = 8485.39, Accuracy = 0.57, Loss = 1.384
+Generated Text at trainstep 9999
+pent and seemed to say that he|| was standing and se
+Chapter II. The Project Gutenb||erg™ confidently and
+, and that he was standing and|| seemed to say that 
+ôYou know that he was standing|| and seemed to say t
+(and the same that he was stan||ding and seemed to s
+[2020-11-27 17:36] Train Step 10000/10000, Batch Size = 128,                         Examples/Sec = 8930.29, Accuracy = 0.60, Loss = 1.297
+Done training.
+Model saved
+Finish sentence
+the world is :
+[78, 66, 63, 1, 81, 73, 76, 70, 62, 1, 67, 77, 1, 59, 1, 77, 78, 76, 59, 72, 65, 63, 1, 78, 66, 59, 78, 1, 66, 63, 1, 81, 59, 77, 1, 77, 73, 1, 77, 78, 76, 59, 67, 65, 66, 78, 1, 78, 73, 1, 66, 67, 71, 1, 59, 72, 62, 1, 77, 63, 63, 71, 63, 62, 1, 78, 73, 1, 77, 59, 83, 1, 78, 66, 59, 78, 1, 66, 63, 1, 81, 59, 77, 1, 59, 1, 77, 78, 76, 59, 72, 65, 63, 1, 78, 66, 59, 78, 1, 66, 63, 1, 81, 59, 77, 1, 77, 73, 1, 77, 78, 76, 59, 67, 65, 66, 78, 1, 78, 73, 1, 66, 67, 71, 1, 59, 72, 62, 1, 77, 63, 63, 71, 63, 62, 1, 78, 73, 1, 77, 59, 83, 1, 78, 66, 59, 78, 1, 66, 63]
+the world is a strange that he was so straight to him and seemed to say that he was a strange that he was so straight to him and seemed to say that he

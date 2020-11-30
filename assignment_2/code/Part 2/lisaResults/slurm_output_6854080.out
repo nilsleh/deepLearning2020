@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "train.py", line 36, in <module>
-    from model import TextGenerationModel
-  File "/home/lgpu0336/model.py", line 31
-    self.embedding_size = int(lstm_num_hidden / 2)
-                                                 ^
-TabError: inconsistent use of tabs and spaces in indentation
-srun: error: r31n3: task 0: Exited with exit code 1

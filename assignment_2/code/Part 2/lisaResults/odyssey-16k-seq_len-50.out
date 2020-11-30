@@ -1,0 +1,68 @@
+Initialize dataset with 205988 characters, 124 unique.
+txt_file : ./assets/odyssey.txt
+seq_length : 50
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 16000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 124
+[2020-11-27 11:55] Train Step 1000/16000, Batch Size = 64,                         Examples/Sec = 3088.34, Accuracy = 0.55, Loss = 1.524
+[2020-11-27 11:56] Train Step 2000/16000, Batch Size = 64,                         Examples/Sec = 3408.14, Accuracy = 0.61, Loss = 1.295
+[2020-11-27 11:56] Train Step 3000/16000, Batch Size = 64,                         Examples/Sec = 2883.49, Accuracy = 0.66, Loss = 1.123
+[2020-11-27 11:57] Train Step 4000/16000, Batch Size = 64,                         Examples/Sec = 3203.82, Accuracy = 0.66, Loss = 1.130
+[2020-11-27 11:57] Train Step 5000/16000, Batch Size = 64,                         Examples/Sec = 3070.68, Accuracy = 0.67, Loss = 1.076
+Generated Text at trainstep 5333
+! And they say that thou mayest perished and said:
+ the ship and the sea, and the sea, and the strang
+; and the goddess, grey-eyed Athene, spake to him 
+ω] and he should come to his own country, and the 
+V.
+
+
+The Odyssey is of the sea, and the sea, and t
+[2020-11-27 11:57] Train Step 6000/16000, Batch Size = 64,                         Examples/Sec = 3086.07, Accuracy = 0.68, Loss = 1.042
+[2020-11-27 11:58] Train Step 7000/16000, Batch Size = 64,                         Examples/Sec = 2825.22, Accuracy = 0.67, Loss = 1.053
+[2020-11-27 11:58] Train Step 8000/16000, Batch Size = 64,                         Examples/Sec = 2596.29, Accuracy = 0.69, Loss = 1.018
+[2020-11-27 11:59] Train Step 9000/16000, Batch Size = 64,                         Examples/Sec = 3017.42, Accuracy = 0.69, Loss = 0.981
+[2020-11-27 11:59] Train Step 10000/16000, Batch Size = 64,                         Examples/Sec = 3192.96, Accuracy = 0.73, Loss = 0.842
+Generated Text at trainstep 10666
+ἀερος-provely gifts, that he may give thee to the 
+Zeus, the fair goddess, brought him all things as 
+-betteen in the breeze of the sea, whose speech is
+é to the ship to seek tidings of my dear chariot a
+ῖt is that have I seen the flocks. We may that can
+[2020-11-27 12:00] Train Step 11000/16000, Batch Size = 64,                         Examples/Sec = 3623.30, Accuracy = 0.76, Loss = 0.777
+[2020-11-27 12:00] Train Step 12000/16000, Batch Size = 64,                         Examples/Sec = 3286.95, Accuracy = 0.81, Loss = 0.666
+[2020-11-27 12:00] Train Step 13000/16000, Batch Size = 64,                         Examples/Sec = 3164.92, Accuracy = 0.83, Loss = 0.586
+[2020-11-27 12:01] Train Step 14000/16000, Batch Size = 64,                         Examples/Sec = 2701.89, Accuracy = 0.84, Loss = 0.564
+[2020-11-27 12:01] Train Step 15000/16000, Batch Size = 64,                         Examples/Sec = 3402.40, Accuracy = 0.84, Loss = 0.538
+Generated Text at trainstep 15999
+, and the wave swift ship and to the sea, and had 
+) of a god, and I will nigh to our house. But when
+Menelaus, fosterling of Zeus, leader of the earth,
+ïorrows and sheep of his friends when he had found
+όστεῖν in Odyssey. This is yet all plainly tell th
+[2020-11-27 12:02] Train Step 16000/16000, Batch Size = 64,                         Examples/Sec = 3415.69, Accuracy = 0.85, Loss = 0.514
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[73, 61, 58, 1, 76, 68, 71, 65, 57, 1, 62, 72, 1, 72, 69, 54, 56, 58, 1, 68, 59, 1, 54, 1, 78, 58, 54, 71, 9, 1, 66, 78, 1, 72, 68, 67, 1, 44, 58, 65, 58, 66, 54, 56, 61, 74, 72, 1, 54, 67, 57, 1, 73, 61, 58, 1, 72, 58, 54, 10, 55, 54, 67, 64, 72, 11, 1, 43, 68, 1, 59, 62, 71, 72, 73, 1, 68, 59, 1, 54, 65, 65, 1, 73, 61, 58, 1, 60, 68, 57, 72, 1, 73, 61, 54, 73, 1, 65, 62, 75, 58, 1, 54, 73, 1, 58, 54, 72, 58, 1, 76, 58, 71, 58, 1, 55, 68, 71, 67, 58, 1, 75, 68, 62, 56, 58, 9, 1, 58, 75, 58, 67, 1, 72, 68, 1, 73, 61, 58, 1, 72, 58, 54, 65, 72, 1, 56, 54, 66, 58]
+the world is space of a year, my son Telemachus and the sea-banks. So first of all the gods that live at ease were borne voice, even so the seals came

@@ -1,0 +1,81 @@
+Initialize dataset with 540241 characters, 87 unique.
+txt_file : ./assets/book_EN_grimms_fairy_tails.txt
+seq_length : 30
+lstm_num_hidden : 128
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 25000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 30
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 87
+[2020-11-26 20:44] Train Step 1000/25000, Batch Size = 64,                         Examples/Sec = 3910.83, Accuracy = 0.52, Loss = 1.637
+[2020-11-26 20:45] Train Step 2000/25000, Batch Size = 64,                         Examples/Sec = 4624.77, Accuracy = 0.55, Loss = 1.445
+[2020-11-26 20:45] Train Step 3000/25000, Batch Size = 64,                         Examples/Sec = 3655.76, Accuracy = 0.57, Loss = 1.392
+[2020-11-26 20:45] Train Step 4000/25000, Batch Size = 64,                         Examples/Sec = 3835.72, Accuracy = 0.59, Loss = 1.361
+[2020-11-26 20:46] Train Step 5000/25000, Batch Size = 64,                         Examples/Sec = 3924.67, Accuracy = 0.60, Loss = 1.309
+[2020-11-26 20:46] Train Step 6000/25000, Batch Size = 64,                         Examples/Sec = 3662.85, Accuracy = 0.59, Loss = 1.310
+[2020-11-26 20:46] Train Step 7000/25000, Batch Size = 64,                         Examples/Sec = 3938.78, Accuracy = 0.63, Loss = 1.212
+[2020-11-26 20:46] Train Step 8000/25000, Batch Size = 64,                         Examples/Sec = 4473.40, Accuracy = 0.61, Loss = 1.259
+Generated Text at trainstep 8333
+jumped all the world with the 
+r the wolf was so that the thi
+ke the stairs and said: ‘I wil
+
+the sparrow when they were st
+]t the wolf was so that the th
+[2020-11-26 20:47] Train Step 9000/25000, Batch Size = 64,                         Examples/Sec = 3731.54, Accuracy = 0.64, Loss = 1.199
+[2020-11-26 20:47] Train Step 10000/25000, Batch Size = 64,                         Examples/Sec = 4515.77, Accuracy = 0.61, Loss = 1.231
+[2020-11-26 20:47] Train Step 11000/25000, Batch Size = 64,                         Examples/Sec = 3935.83, Accuracy = 0.63, Loss = 1.192
+[2020-11-26 20:48] Train Step 12000/25000, Batch Size = 64,                         Examples/Sec = 4018.49, Accuracy = 0.62, Loss = 1.223
+[2020-11-26 20:48] Train Step 13000/25000, Batch Size = 64,                         Examples/Sec = 3965.89, Accuracy = 0.62, Loss = 1.186
+[2020-11-26 20:48] Train Step 14000/25000, Batch Size = 64,                         Examples/Sec = 3883.84, Accuracy = 0.62, Loss = 1.207
+[2020-11-26 20:49] Train Step 15000/25000, Batch Size = 64,                         Examples/Sec = 3945.38, Accuracy = 0.63, Loss = 1.144
+[2020-11-26 20:49] Train Step 16000/25000, Batch Size = 64,                         Examples/Sec = 3925.07, Accuracy = 0.65, Loss = 1.148
+Generated Text at trainstep 16666
+I will not see if you will be 
+e was a great many rest and sa
+zel-tree the stairs with him, 
+“I do not know what it is the 
+ut the work or as if it was a 
+[2020-11-26 20:49] Train Step 17000/25000, Batch Size = 64,                         Examples/Sec = 4546.83, Accuracy = 0.63, Loss = 1.153
+[2020-11-26 20:49] Train Step 18000/25000, Batch Size = 64,                         Examples/Sec = 4491.52, Accuracy = 0.64, Loss = 1.161
+[2020-11-26 20:50] Train Step 19000/25000, Batch Size = 64,                         Examples/Sec = 3817.72, Accuracy = 0.66, Loss = 1.097
+[2020-11-26 20:50] Train Step 20000/25000, Batch Size = 64,                         Examples/Sec = 3864.27, Accuracy = 0.65, Loss = 1.107
+[2020-11-26 20:50] Train Step 21000/25000, Batch Size = 64,                         Examples/Sec = 4500.85, Accuracy = 0.63, Loss = 1.126
+[2020-11-26 20:51] Train Step 22000/25000, Batch Size = 64,                         Examples/Sec = 4489.64, Accuracy = 0.65, Loss = 1.138
+[2020-11-26 20:51] Train Step 23000/25000, Batch Size = 64,                         Examples/Sec = 4892.65, Accuracy = 0.65, Loss = 1.116
+[2020-11-26 20:51] Train Step 24000/25000, Batch Size = 64,                         Examples/Sec = 3818.10, Accuracy = 0.64, Loss = 1.117
+Generated Text at trainstep 24999
+he stream at the spindle was s
+be a good things the three str
+“Let him the street to be a st
+And the man said the man, ‘but
+ked the stairs of the window, 
+[2020-11-26 20:52] Train Step 25000/25000, Batch Size = 64,                         Examples/Sec = 3527.27, Accuracy = 0.65, Loss = 1.112
+Example of how the model finishes the sentence
+he stream at the spindle was s
+be a good things the three str
+“Let him the street to be a st
+And the man said the man, ‘but
+ked the stairs of the window, 
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[75, 63, 60, 1, 78, 70, 73, 67, 59, 1, 64, 74, 1, 69, 70, 75, 1, 56, 1, 61, 64, 69, 60, 1, 75, 63, 64, 69, 62, 74, 1, 75, 70, 1, 75, 63, 60, 1, 66, 64, 69, 62, 83, 74, 1, 59, 56, 76, 62, 63, 75, 60, 73, 1, 78, 56, 74, 1, 56, 1, 62, 73, 60, 56, 75, 1, 58, 67, 70, 75, 63, 60, 74, 1, 56, 69, 59, 1, 74, 56, 64, 59, 23, 1, 82, 35, 1, 78, 64, 67]
+the world is not a fine things to the king’s daughter was a great clothes and said: ‘I wil

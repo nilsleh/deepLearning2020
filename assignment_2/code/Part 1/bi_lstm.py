@@ -57,7 +57,7 @@ class biLSTM(nn.Module):
 class LSTMCell(nn.Module):
 
     def __init__(self, seq_length, input_dim, hidden_dim, num_classes,
-                 batch_size, device):
+                 batch_size, device, embed_dim=1):
 
         super(LSTMCell, self).__init__()
 
@@ -65,7 +65,7 @@ class LSTMCell(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
         self.seq_length = seq_length - 1
-        self.embedding_size = input_dim
+        self.embedding_size = embed_dim
         self.embedding = nn.Embedding(seq_length, self.embedding_size)
         
         self.W_gx = nn.Parameter(torch.empty(self.embedding_size, hidden_dim))

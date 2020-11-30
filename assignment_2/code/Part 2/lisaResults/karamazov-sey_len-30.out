@@ -1,0 +1,75 @@
+Initialize dataset with 1957596 characters, 107 unique.
+txt_file : ./assets/karamazov.txt
+seq_length : 30
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 26000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 30
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 107
+[2020-11-26 23:14] Train Step 1000/26000, Batch Size = 64,                         Examples/Sec = 4353.76, Accuracy = 0.53, Loss = 1.601
+[2020-11-26 23:14] Train Step 2000/26000, Batch Size = 64,                         Examples/Sec = 4586.37, Accuracy = 0.57, Loss = 1.413
+[2020-11-26 23:15] Train Step 3000/26000, Batch Size = 64,                         Examples/Sec = 4312.77, Accuracy = 0.57, Loss = 1.423
+[2020-11-26 23:15] Train Step 4000/26000, Batch Size = 64,                         Examples/Sec = 4514.10, Accuracy = 0.59, Loss = 1.360
+[2020-11-26 23:15] Train Step 5000/26000, Batch Size = 64,                         Examples/Sec = 4338.21, Accuracy = 0.57, Loss = 1.386
+[2020-11-26 23:16] Train Step 6000/26000, Batch Size = 64,                         Examples/Sec = 4422.69, Accuracy = 0.57, Loss = 1.412
+[2020-11-26 23:16] Train Step 7000/26000, Batch Size = 64,                         Examples/Sec = 4458.02, Accuracy = 0.57, Loss = 1.371
+[2020-11-26 23:16] Train Step 8000/26000, Batch Size = 64,                         Examples/Sec = 4472.14, Accuracy = 0.58, Loss = 1.380
+Generated Text at trainstep 8666
+On the same things the same th
+Mitya said that he was a stran
+> I want to the contrary, and 
+urse the same things the same 
+s and the same things the same
+[2020-11-26 23:16] Train Step 9000/26000, Batch Size = 64,                         Examples/Sec = 4401.52, Accuracy = 0.58, Loss = 1.366
+[2020-11-26 23:17] Train Step 10000/26000, Batch Size = 64,                         Examples/Sec = 4374.05, Accuracy = 0.57, Loss = 1.397
+[2020-11-26 23:17] Train Step 11000/26000, Batch Size = 64,                         Examples/Sec = 4303.57, Accuracy = 0.60, Loss = 1.312
+[2020-11-26 23:17] Train Step 12000/26000, Batch Size = 64,                         Examples/Sec = 4387.28, Accuracy = 0.59, Loss = 1.315
+[2020-11-26 23:17] Train Step 13000/26000, Batch Size = 64,                         Examples/Sec = 4499.42, Accuracy = 0.62, Loss = 1.248
+[2020-11-26 23:18] Train Step 14000/26000, Batch Size = 64,                         Examples/Sec = 4298.75, Accuracy = 0.63, Loss = 1.211
+[2020-11-26 23:18] Train Step 15000/26000, Batch Size = 64,                         Examples/Sec = 4468.34, Accuracy = 0.61, Loss = 1.271
+[2020-11-26 23:18] Train Step 16000/26000, Batch Size = 64,                         Examples/Sec = 4288.45, Accuracy = 0.62, Loss = 1.243
+[2020-11-26 23:19] Train Step 17000/26000, Batch Size = 64,                         Examples/Sec = 4639.64, Accuracy = 0.60, Loss = 1.307
+Generated Text at trainstep 17332
+you are a sudden and see the s
+$. The prosecutor said that he
+—that is the money and see the
+ëœæmust be a servant words and
+” he said, “I shall be a secre
+[2020-11-26 23:19] Train Step 18000/26000, Batch Size = 64,                         Examples/Sec = 4443.05, Accuracy = 0.60, Loss = 1.272
+[2020-11-26 23:19] Train Step 19000/26000, Batch Size = 64,                         Examples/Sec = 4519.95, Accuracy = 0.62, Loss = 1.249
+[2020-11-26 23:19] Train Step 20000/26000, Batch Size = 64,                         Examples/Sec = 4729.72, Accuracy = 0.61, Loss = 1.267
+[2020-11-26 23:20] Train Step 21000/26000, Batch Size = 64,                         Examples/Sec = 4446.95, Accuracy = 0.60, Loss = 1.280
+[2020-11-26 23:20] Train Step 22000/26000, Batch Size = 64,                         Examples/Sec = 4473.10, Accuracy = 0.63, Loss = 1.237
+[2020-11-26 23:20] Train Step 23000/26000, Batch Size = 64,                         Examples/Sec = 4474.97, Accuracy = 0.63, Loss = 1.248
+[2020-11-26 23:21] Train Step 24000/26000, Batch Size = 64,                         Examples/Sec = 4695.14, Accuracy = 0.62, Loss = 1.245
+[2020-11-26 23:21] Train Step 25000/26000, Batch Size = 64,                         Examples/Sec = 4488.81, Accuracy = 0.60, Loss = 1.222
+Generated Text at trainstep 25998
+8 I shall be a strange thing t
+the same time to say that he w
+54] laid Alyosha, and the same
+6. The President came to the c
+“I shall be the same time to s
+[2020-11-26 23:21] Train Step 26000/26000, Batch Size = 64,                         Examples/Sec = 4436.88, Accuracy = 0.63, Loss = 1.209
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[78, 66, 63, 1, 81, 73, 76, 70, 62, 1, 67, 77, 1, 78, 66, 63, 1, 71, 73, 72, 63, 83, 1, 59, 72, 62, 1, 78, 66, 63, 1, 77, 59, 71, 63, 1, 78, 67, 71, 63, 1, 78, 73, 1, 77, 59, 83, 1, 78, 66, 59, 78, 1, 66, 63, 1, 81, 59, 77, 1, 59, 1, 77, 78, 76, 59, 72, 65, 63, 1, 78, 66, 63, 1, 71, 73, 72, 63, 83, 1, 59, 72, 62, 1, 77, 63, 63, 1, 66, 67]
+the world is the money and the same time to say that he was a strange the money and see hi

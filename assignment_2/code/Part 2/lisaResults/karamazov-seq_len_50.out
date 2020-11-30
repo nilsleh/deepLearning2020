@@ -1,0 +1,97 @@
+Initialize dataset with 1957596 characters, 107 unique.
+txt_file : ./assets/karamazov.txt
+seq_length : 50
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 128
+learning_rate : 0.001
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 21000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 107
+[2020-11-27 15:01] Train Step 1000/21000, Batch Size = 128,                         Examples/Sec = 6399.32, Accuracy = 0.52, Loss = 1.625
+[2020-11-27 15:02] Train Step 2000/21000, Batch Size = 128,                         Examples/Sec = 6267.68, Accuracy = 0.56, Loss = 1.458
+[2020-11-27 15:02] Train Step 3000/21000, Batch Size = 128,                         Examples/Sec = 5935.88, Accuracy = 0.58, Loss = 1.424
+[2020-11-27 15:03] Train Step 4000/21000, Batch Size = 128,                         Examples/Sec = 6230.44, Accuracy = 0.59, Loss = 1.365
+[2020-11-27 15:03] Train Step 5000/21000, Batch Size = 128,                         Examples/Sec = 6148.81, Accuracy = 0.58, Loss = 1.373
+[2020-11-27 15:03] Train Step 6000/21000, Batch Size = 128,                         Examples/Sec = 6339.17, Accuracy = 0.58, Loss = 1.379
+[2020-11-27 15:04] Train Step 7000/21000, Batch Size = 128,                         Examples/Sec = 6359.82, Accuracy = 0.59, Loss = 1.332
+Generated Text at trainstep 7000
+quite he had been a strange to the same to the sam
+e the same to the same to the same to the same to 
+ll the same to the same to the same to the same to
+$ the same to the same to the same to the same to 
+Æthat he was a strange to the same to the same to 
+[2020-11-27 15:04] Train Step 8000/21000, Batch Size = 128,                         Examples/Sec = 6177.60, Accuracy = 0.58, Loss = 1.359
+[2020-11-27 15:05] Train Step 9000/21000, Batch Size = 128,                         Examples/Sec = 6350.20, Accuracy = 0.59, Loss = 1.321
+[2020-11-27 15:05] Train Step 10000/21000, Batch Size = 128,                         Examples/Sec = 6246.32, Accuracy = 0.62, Loss = 1.259
+[2020-11-27 15:06] Train Step 11000/21000, Batch Size = 128,                         Examples/Sec = 6243.41, Accuracy = 0.62, Loss = 1.242
+[2020-11-27 15:06] Train Step 12000/21000, Batch Size = 128,                         Examples/Sec = 6407.11, Accuracy = 0.62, Loss = 1.237
+[2020-11-27 15:07] Train Step 13000/21000, Batch Size = 128,                         Examples/Sec = 6295.17, Accuracy = 0.63, Loss = 1.202
+[2020-11-27 15:07] Train Step 14000/21000, Batch Size = 128,                         Examples/Sec = 6042.78, Accuracy = 0.63, Loss = 1.201
+Generated Text at trainstep 14000
+Mitya was a strange to see him at the time to the 
+be so sorrow on the contrary, the same time to the
+! I shall be angry at the time to the contrary, th
+Œ said that he was a strange to see him at the tim
+éamily I am a sudden thing to see you and the same
+[2020-11-27 15:07] Train Step 15000/21000, Batch Size = 128,                         Examples/Sec = 6253.52, Accuracy = 0.63, Loss = 1.199
+[2020-11-27 15:08] Train Step 16000/21000, Batch Size = 128,                         Examples/Sec = 6301.30, Accuracy = 0.63, Loss = 1.189
+[2020-11-27 15:08] Train Step 17000/21000, Batch Size = 128,                         Examples/Sec = 6364.95, Accuracy = 0.63, Loss = 1.209
+[2020-11-27 15:09] Train Step 18000/21000, Batch Size = 128,                         Examples/Sec = 5972.86, Accuracy = 0.63, Loss = 1.199
+[2020-11-27 15:09] Train Step 19000/21000, Batch Size = 128,                         Examples/Sec = 6453.71, Accuracy = 0.63, Loss = 1.191
+[2020-11-27 15:10] Train Step 20000/21000, Batch Size = 128,                         Examples/Sec = 6320.52, Accuracy = 0.63, Loss = 1.198
+[2020-11-27 15:10] Train Step 21000/21000, Batch Size = 128,                         Examples/Sec = 6331.17, Accuracy = 0.64, Loss = 1.180
+Generated Text at trainstep 21000
+ing and the same time to the prosecutor and the sa
+çally have been a sense of the prosecutor and the 
+ve had been a sense of the prosecutor and the same
+Pavlovitch was a strange and the same time to the 
+]thout a secret of the prosecutor and the same tim
+[2020-11-27 15:11] Train Step 22000/21000, Batch Size = 128,                         Examples/Sec = 6336.85, Accuracy = 0.64, Loss = 1.149
+[2020-11-27 15:11] Train Step 23000/21000, Batch Size = 128,                         Examples/Sec = 6241.31, Accuracy = 0.65, Loss = 1.125
+[2020-11-27 15:11] Train Step 24000/21000, Batch Size = 128,                         Examples/Sec = 6294.87, Accuracy = 0.65, Loss = 1.094
+[2020-11-27 15:12] Train Step 25000/21000, Batch Size = 128,                         Examples/Sec = 6187.64, Accuracy = 0.65, Loss = 1.129
+[2020-11-27 15:12] Train Step 26000/21000, Batch Size = 128,                         Examples/Sec = 6391.17, Accuracy = 0.66, Loss = 1.087
+[2020-11-27 15:13] Train Step 27000/21000, Batch Size = 128,                         Examples/Sec = 6315.98, Accuracy = 0.65, Loss = 1.131
+[2020-11-27 15:13] Train Step 28000/21000, Batch Size = 128,                         Examples/Sec = 6227.05, Accuracy = 0.64, Loss = 1.150
+Generated Text at trainstep 28000
+y the prisoner was a strange and seemed to have be
+And the doctor had not been to see him at once and
+çally and the same time to the same time to the sa
+61.
+
+
+1.F.3.
+
+
+I repeat, and the story of the cour
+****************b
+
+
+
+
+
+Books of the prisoner was a
+[2020-11-27 15:14] Train Step 29000/21000, Batch Size = 128,                         Examples/Sec = 6348.02, Accuracy = 0.64, Loss = 1.142
+[2020-11-27 15:14] Train Step 30000/21000, Batch Size = 128,                         Examples/Sec = 6214.93, Accuracy = 0.65, Loss = 1.137
+Done training.
+Model saved
+Finish sentence
+the world is :
+[78, 66, 63, 1, 81, 73, 76, 70, 62, 1, 67, 77, 1, 59, 1, 77, 78, 76, 59, 72, 65, 63, 76, 1, 78, 73, 1, 78, 66, 63, 1, 61, 73, 79, 76, 78, 12, 1, 38, 1, 81, 59, 72, 78, 1, 78, 73, 1, 60, 63, 1, 59, 1, 77, 61, 73, 79, 72, 62, 76, 63, 70, 11, 1, 59, 72, 62, 1, 78, 66, 63, 76, 63, 1, 81, 59, 77, 1, 72, 73, 78, 66, 67, 72, 65, 1, 60, 79, 78, 1, 78, 66, 63, 1, 77, 59, 71, 63, 1, 78, 67, 71, 63, 1, 78, 73, 1, 78, 66, 63, 1, 77, 59, 71, 63, 1, 59, 72, 62, 1, 78, 66, 63, 1, 77, 59, 71, 63, 1, 78, 67, 71, 63, 1, 78, 73, 1, 78, 66, 63, 1, 77, 59, 71, 63, 1, 78, 67, 71, 63]
+the world is a stranger to the court. I want to be a scoundrel, and there was nothing but the same time to the same and the same time to the same time

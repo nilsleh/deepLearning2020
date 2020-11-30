@@ -1,0 +1,71 @@
+Initialize dataset with 205988 characters, 124 unique.
+txt_file : ./assets/odyssey.txt
+seq_length : 50
+lstm_num_hidden : 256
+lstm_num_layers : 2
+batch_size : 64
+learning_rate : 0.002
+learning_rate_decay : 0.96
+learning_rate_step : 5000
+dropout_keep_prob : 1.0
+train_steps : 10000
+max_norm : 5.0
+early_stopping : False
+patience : 2000
+device : cuda:0
+summary_path : ./summaries/
+print_every : 1000
+sample_method : greedy
+sample_length : 50
+temperature : 1.0
+finish_sentence : the world is
+train_or_finish : both
+save_model : True
+path_saved_model : ./saved_model/lstm.pt
+Vocabulary Size 124
+[2020-11-27 12:06] Train Step 1000/10000, Batch Size = 64,                         Examples/Sec = 2864.01, Accuracy = 0.55, Loss = 1.493
+[2020-11-27 12:06] Train Step 2000/10000, Batch Size = 64,                         Examples/Sec = 3482.33, Accuracy = 0.61, Loss = 1.291
+[2020-11-27 12:06] Train Step 3000/10000, Batch Size = 64,                         Examples/Sec = 2619.67, Accuracy = 0.65, Loss = 1.145
+Generated Text at trainstep 3333
+Quth the ship and the ship and the ship and the sh
+For the wooers that thou hast thou art a ship and 
+VIII.
+ BOOK XXII.
+ BOOK XXII.
+ BOOK XXII.
+ BOOK XX
+J[1] Ep. B. xv. 119.
+
+
+Therewith he spake and the 
+θand the ship and the ship and the ship and the sh
+[2020-11-27 12:07] Train Step 4000/10000, Batch Size = 64,                         Examples/Sec = 2872.78, Accuracy = 0.66, Loss = 1.119
+[2020-11-27 12:07] Train Step 5000/10000, Batch Size = 64,                         Examples/Sec = 2953.70, Accuracy = 0.68, Loss = 1.067
+[2020-11-27 12:08] Train Step 6000/10000, Batch Size = 64,                         Examples/Sec = 3449.44, Accuracy = 0.66, Loss = 1.113
+Generated Text at trainstep 6666
+xic, and the gods have straightway he should be th
+Now the goddess, grey-eyed Athene, spake to him an
+Greece, and the story of the sea, and the son of A
+ke and the ship and the ship and the ship and the 
+7 (Book i).
+
+
+The wooers were the gods in the hall
+[2020-11-27 12:08] Train Step 7000/10000, Batch Size = 64,                         Examples/Sec = 3108.37, Accuracy = 0.68, Loss = 1.033
+[2020-11-27 12:09] Train Step 8000/10000, Batch Size = 64,                         Examples/Sec = 3530.56, Accuracy = 0.70, Loss = 0.976
+[2020-11-27 12:09] Train Step 9000/10000, Batch Size = 64,                         Examples/Sec = 3208.76, Accuracy = 0.71, Loss = 0.936
+Generated Text at trainstep 9999
+us and the swift ship and to the house of his fath
+ἀεος, while as for the water in a wallet, and the 
+be and sat him down upon the water in a wallet, an
+öalions of the words that he may come among them t
+Zeus, and the god to the house of Odysseus, and th
+[2020-11-27 12:09] Train Step 10000/10000, Batch Size = 64,                         Examples/Sec = 3371.75, Accuracy = 0.74, Loss = 0.838
+[2020-11-27 12:10] Train Step 11000/10000, Batch Size = 64,                         Examples/Sec = 2728.45, Accuracy = 0.76, Loss = 0.767
+[2020-11-27 12:10] Train Step 12000/10000, Batch Size = 64,                         Examples/Sec = 3316.97, Accuracy = 0.79, Loss = 0.698
+Done training.
+Model saved
+Finish sentence
+Example of how the model finishes the sentence
+[73, 61, 58, 1, 76, 68, 71, 65, 57, 1, 62, 72, 65, 58, 9, 1, 54, 67, 57, 1, 57, 58, 69, 54, 71, 73, 58, 57, 1, 73, 68, 1, 73, 61, 58, 1, 72, 61, 62, 69, 1, 54, 67, 57, 1, 73, 68, 1, 66, 78, 1, 61, 58, 54, 71, 73, 1, 76, 54, 72, 1, 57, 54, 71, 64, 65, 78, 1, 73, 71, 68, 74, 55, 65, 58, 57, 1, 54, 72, 1, 33, 1, 67, 58, 62, 60, 61, 55, 68, 74, 71, 72, 1, 54, 67, 57, 1, 73, 68, 1, 66, 78, 1, 61, 68, 74, 72, 58, 9, 1, 54, 67, 57, 1, 65, 54, 62, 57, 1, 74, 69, 68, 67, 1, 73, 61, 58, 1, 72, 58, 54, 10, 55, 58, 54, 56, 61, 11, 1, 43, 68, 1, 72, 68, 68, 67, 1, 54, 72, 1]
+the world isle, and departed to the ship and to my heart was darkly troubled as I neighbours and to my house, and laid upon the sea-beach. So soon as 
