@@ -19,4 +19,5 @@ pytorch_comparison.txt
 *.zip
 *.png
 *.ipynb
+*.job
 .ipynb_checkpoints/
