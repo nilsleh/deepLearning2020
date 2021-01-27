@@ -26,7 +26,8 @@ The third assignment consisted of three parts:
 
 
 <p align="center">
-  <img width="100" height="100" title="Training Progress of VAE on MNIST dataset"   src="https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif">
+  <p>Training Progress VAE on MNIST</p>
+  <img width="200" height="200" src="https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif">
 </p>
 
 Training Progress of GAN on MNIST dataset
