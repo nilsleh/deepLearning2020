@@ -24,11 +24,13 @@ The third assignment consisted of three parts:
 2. Implement a Generative Adverserial Network
 3. Build a Generative Flow Based Model
 
-<div class="row">
+<div class="row" align="center">
   <div class="column">
+    <p>Training Progress VAE on MNIST</p>
     <img src="https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif" alt="VAE" width="250" height="250">
   </div>
   <div class="column">
+    <p>Training Progress GAN on MNIST</p>
     <img src="https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/GAN.gif" alt="GAN" width="250" height="250">
   </div>
  </div>
