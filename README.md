@@ -23,6 +23,9 @@ The third assignment consisted of three parts:
 1. Implement a Variational Auto Encoder 
 2. Implement a Generative Adverserial Network
 3. Build a Generative Flow Based Model
+
+![GAN](https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/GAN.gif)
+![VAE](https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif)
 ---
 
 ## Copyright
