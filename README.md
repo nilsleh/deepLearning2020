@@ -25,7 +25,7 @@ The third assignment consisted of three parts:
 3. Build a Generative Flow Based Model
 
 Training Progress of VAE on MNIST dataset
-![VAE](https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif)
+<img align="left" width="100" height="100" src="https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/VAE.gif">
 
 Training Progress of GAN on MNIST dataset
 ![GAN](https://github.com/nilsleh/deepLearning2020/blob/master/assignment_3/3_generative/GAN.gif)
